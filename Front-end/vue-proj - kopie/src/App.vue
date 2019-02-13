@@ -1,62 +1,45 @@
 <template>
   <div id="app">
-    <div class="column" style="background-color:#ffff;">
-      <GameBoard />
-      <InformationBoard />
-    </div>
-    <div class="column" style="background-color:#ffff;">
-      <WordBoard />
-    </div>
+    <router-view name="maincontainer" />
+    <router-view name="additional" />
   </div>
 </template>
 
 <script>
-import GameBoard from "./components/GameBoard";
-import WordBoard from "./components/WordBoard";
-import InformationBoard from "./components/InformationBoard";
-import store from "./store";
-import { mapGetters, mapState } from "vuex";
 
 export default {
-  name: "App",
-  store,
   components: {
-    GameBoard,
-    WordBoard,
-    InformationBoard
-  },
-  computed: {
-    ...mapGetters([
-      "getWord",
-      "getWordList",
-      "getTotalScore",
-      "getInvalidMove"
-    ]),
-    ...mapState(["capturing"])
   }
-};
+}
 </script>
 
-<style>
-* {
-  box-sizing: border-box;
-}
+
+<style lang="scss">
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
-.column {
-  float: left;
-  width: 50%;
-  padding: 10px;
+
+body {
+  margin: 0;
+  overflow: hidden;
+  user-select: none;
 }
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
+
+a{
+	text-decoration: none;
+	color: inherit;
+}
+
+html {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
 }
 </style>

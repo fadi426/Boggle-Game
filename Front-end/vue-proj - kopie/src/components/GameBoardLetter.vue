@@ -25,7 +25,7 @@ export default {
 
       if (
         !this.getWord.letterIndexList.includes(this.letterIndex) &&
-        this.getInvalidMove == false
+        !this.getInvalidMove
       ) {
         if (
           this.getWord.letterIndexList.length === 0 ||
@@ -56,7 +56,7 @@ export default {
          this.isActive = false; 
       }
       return {
-        backgroundColor : this.isActive  ? 'green' : '#f4511e'
+        backgroundColor : this.isActive  ? '#00A591' : '#FF6F61'
       }
     }
   }
@@ -65,7 +65,7 @@ export default {
 
 <style>
 .gameboard-letter {
-  background-color: #f4511e;
+  background-color: #FF6F61;
   color: white;
   border: 1px solid;
   width: 2em;
@@ -74,7 +74,7 @@ export default {
   justify-content: center;
   line-height: 2em;
   user-select: none;
-  opacity: 0.6;
+  opacity: 0.7;
   transition: 0.3s;
   margin: 3px;
 }

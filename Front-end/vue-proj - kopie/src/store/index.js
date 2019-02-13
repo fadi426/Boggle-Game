@@ -13,6 +13,7 @@ export default new Vuex.Store({
       letterIndexList: [],
       isValidWord: undefined
     },
+    gameOver: false,
     capturing: false,
     wordList: [],
     totalScore: 0,
@@ -33,6 +34,9 @@ export default new Vuex.Store({
     },
     getCapturing: state => {
       return state.capturing;
+    },
+    getGameOver: state => {
+      return state.gameOver;
     }
   },
   mutations: {
@@ -67,6 +71,9 @@ export default new Vuex.Store({
     addScorePoints(state, payload){
       state.totalScore += payload;
     },
+    stateGameOver(state) {
+      state.gameOver = true;
+    }
   },
   actions: {
     startCapturing({
