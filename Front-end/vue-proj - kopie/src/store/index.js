@@ -44,59 +44,29 @@ export default new Vuex.Store({
       state.Word.score = state.Word.word.length;
       state.Word.letterIndex = payload.letterIndex;
     },
-    adjustInvalidMove(state) {
-      state.invalidMove = true;
+    addWord(state, payload){
+      state.wordList.push(payload);
+    },
+    resetWord(state){
+      state.Word = {
+        word: "",
+        score: "",
+        letterIndexList: [],
+        isValidWord: undefined,
+      } 
+    },
+    adjustInvalidMove(state, payload) {
+      state.invalidMove = payload;
     },
     startCapturing(state) {
       state.capturing = true;
     },
     stopCapturing(state) {
       state.capturing = false;
-
-      function ApiCheck(Word) {
-        return new Promise((resolve) => {
-          axios.post('http://192.168.0.11:8080/words', { 'word': Word.word, 'score': Word.score })
-            .then((response) => {
-              if (response.data.validWord == true)
-                Word.isValidWord = true;
-              if (response.data.validWord == false)
-                Word.isValidWord = false;
-              resolve()
-            });
-        });
-      }
-
-      async function saveWord() {
-        if (state.Word.word && 
-            !state.wordList.some(e => e.word === state.Word.word)) {
-          state.wordList.push(state.Word);
-
-          state.Word = {
-            word: "",
-            score: "",
-            letterIndexList: [],
-            isValidWord: undefined,
-          },
-         state.invalidMove = false;
-
-         var Word = state.wordList[state.wordList.length -1];
-          await ApiCheck(Word);
-          console.log(Word.word + Word.isValidWord);
-          
-          if(Word.isValidWord)
-          state.totalScore += Word.score;
-        }
-        else{
-          state.Word = {
-            word: "",
-            score: "",
-            letterIndexList: [],
-            isValidWord: undefined,
-          }
-        }
-      }
-      saveWord();
-    } 
+    },
+    addScorePoints(state, payload){
+      state.totalScore += payload;
+    },
   },
   actions: {
     startCapturing({

@@ -41,7 +41,7 @@ export default {
           this.$store.commit("addLetter", payload);
           this.isActive = true;
         } else {
-        this.$store.commit("adjustInvalidMove");
+        this.$store.commit("adjustInvalidMove", true);
         }
       } 
     },

@@ -19,13 +19,22 @@
 </template>
 
 <script>
-import _ from "underscore";
+import { mapGetters } from "vuex";
 import GameBoardLetter from "./GameBoardLetter";
+import axios from 'axios'
+
 export default {
   name: "GameBoard",
   components: { GameBoardLetter },
   data() {
     return {};
+  },
+  computed: {
+    ...mapGetters([
+        "getWord",
+        "getWordList",
+        "getInvalidMove"
+    ])
   },
   methods: {
     letters() {
@@ -69,6 +78,35 @@ export default {
     stopCapturing() {
       
       this.$store.dispatch("stopCapturing");
+
+      var Word = this.getWord;
+
+      this.$store.commit("adjustInvalidMove", false);
+      this.$store.commit("resetWord");
+
+      console.log(Word.word);
+
+        if (Word.word && 
+            !this.getWordList.some(e => e.word === Word.word) &&
+            !this.getInvalidMove) {
+            console.log(Word.word);
+              
+          return new Promise((resolve) => {
+            axios.post('http://localhost:8080/words', { 'word': Word.word, 'score': Word.score })
+            .then((response) => {
+              if (response.data.validWord == true){
+                Word.isValidWord = true;
+                this.$store.commit("addWord", Word);
+                this.$store.commit("addScorePoints", Word.score);
+              }
+              if (response.data.validWord == false)
+                Word.isValidWord = false;
+              console.log(Word.word + " " + Word.isValidWord );
+              resolve()
+            });
+          });
+        }
+
     }
   }
 };

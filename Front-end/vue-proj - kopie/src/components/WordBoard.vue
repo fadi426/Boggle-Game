@@ -5,11 +5,13 @@
             <thead>
                 <th>Guessed words</th>
                 <th>Score</th>
+                <th>Valid</th>
             </thead>
             <tbody>
                 <tr v-for="Word in getWordList" :key="Word.state">
                 <td>{{ Word.word }}</td>
                 <td>{{ Word.score }}</td>
+                <td>{{ Word.isValidWord }} </td>
                 </tr>
             </tbody>
         </table>
