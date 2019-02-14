@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Timer from './components/Timer'
 import Home from './components/Home'
 import SinglePlayer from './components/SinglePlayer'
+import Score from './components/Score'
 
 Vue.use(Router)
 
@@ -31,5 +32,12 @@ export default new Router({
             maincontainer: SinglePlayer,
         }
       },
-  ]
-})
+      {
+        path: '/score',
+        name: 'score',
+        components: {
+            maincontainer: Score,
+        }
+      },
+    ]
+  })
