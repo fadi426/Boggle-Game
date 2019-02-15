@@ -34,6 +34,7 @@
                             <tr v-for="item in received_messages" :key="item">
                                 <td>{{ item }}</td>
                             </tr>
+                            {{ scorep }}
                         </tbody>
                     </table>
                 </div>
@@ -47,10 +48,12 @@ import SockJS from "sockjs-client";
 import Stomp from "webstomp-client";
 
 export default {
-  name: "websocketdemo",
+  name: "Score",
   data() {
     return {
       received_messages: [],
+      received_scores: [],
+      scoreP: '',
       send_message: null,
       connected: false
     };
@@ -74,6 +77,7 @@ export default {
           this.stompClient.subscribe("/topic/greetings", tick => {
             console.log(tick);
             this.received_messages.push(JSON.parse(tick.body).content);
+            this.scorep = (JSON.parse(tick.body).score);
           });
         },
         error => {

@@ -13,10 +13,14 @@ export default new Vuex.Store({
       letterIndexList: [],
       isValidWord: undefined
     },
+    Player: {
+      uuid: "",
+      name: "",
+      totalScore: 0
+    },
     gameOver: false,
     capturing: false,
     wordList: [],
-    totalScore: 0,
     invalidMove: false
   },
   getters: {
@@ -27,7 +31,7 @@ export default new Vuex.Store({
       return state.wordList;
     },
     getTotalScore: state => {
-      return state.totalScore;
+      return state.Player.totalScore;
     },
     getInvalidMove: state => {
       return state.invalidMove;
@@ -37,6 +41,9 @@ export default new Vuex.Store({
     },
     getGameOver: state => {
       return state.gameOver;
+    },
+    getPlayer: state => {
+      return state.Player;
     }
   },
   mutations: {
@@ -50,6 +57,11 @@ export default new Vuex.Store({
     },
     addWord(state, payload){
       state.wordList.push(payload);
+    },
+    createPlayer(state, payload){
+      state.Player.uuid = payload.uuid;
+      state.Player.name = payload.name;
+      state.Player.totalScore = payload.totalScore;
     },
     resetWord(state){
       state.Word = {
@@ -69,7 +81,7 @@ export default new Vuex.Store({
       state.capturing = false;
     },
     addScorePoints(state, payload){
-      state.totalScore += payload;
+      state.Player.totalScore += payload;
     },
     stateGameOver(state) {
       state.gameOver = true;
