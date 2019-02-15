@@ -15,7 +15,7 @@ public class DictonaryChecker
     public static boolean readInDictionaryWords(String word) throws IOException
     {
         Boolean wordExists = false;
-        File dictionaryFile = new File("C:\\Users\\fadi\\Documents\\GitHub\\Boggle-Game\\Back-end\\BoggleGame\\src\\main\\resources\\Dutch.dic");
+        File dictionaryFile = new File("D:\\Users\\Fadi\\IdeaProjects\\BoggleGame\\src\\main\\resources\\Dutch.dic");
         if( ! dictionaryFile.exists()) {
             System.out.println("*** Error *** \n" +
                     "Your dictionary file has the wrong name or is " +

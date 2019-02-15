@@ -8,6 +8,10 @@ public class ValidWord {
 
     }
 
+    public ValidWord(boolean validWord){
+        this.validWord = validWord;
+    }
+
     public boolean getValidWord() {
         return this.validWord;
     }
