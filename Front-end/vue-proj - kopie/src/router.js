@@ -4,7 +4,7 @@ import Timer from './components/Timer'
 import Home from './components/Home'
 import SinglePlayer from './components/SinglePlayer'
 import Score from './components/Score'
-import MultiplayerLobby from './components/MuliplayerLobby'
+import Multiplayer from './components/MultiPlayer'
 
 Vue.use(Router)
 
@@ -41,10 +41,10 @@ export default new Router({
         }
       },
       {
-        path: '/multiplayerlobby',
-        name: 'multiplayerlobby',
+        path: '/multiplayer',
+        name: 'multiplayer',
         components: {
-            maincontainer: MultiplayerLobby,
+            maincontainer: Multiplayer,
         }
       },
     ]

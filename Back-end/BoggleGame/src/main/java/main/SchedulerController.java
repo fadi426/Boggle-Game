@@ -1,5 +1,9 @@
 package main;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import main.service.GameRoomService;
+import model.GameRoom;
 import model.Greeting;
 import model.Player;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +19,16 @@ public class SchedulerController {
     @Autowired
     private SimpMessagingTemplate template;
 
+    @Autowired
+    private GameRoomService gameRoomService;
+
     @Scheduled(fixedRate = 5000)
-    public void greeting() throws InterruptedException {
+    public void greeting() throws InterruptedException, JsonProcessingException {
         Thread.sleep(1000); // simulated delay
-        System.out.println("scheduled");
-        this.template.convertAndSend("/topic/greetings", new Greeting("Hello, TEEEEEEEEEEEEST"));
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonInString = mapper.writeValueAsString(gameRoomService.getAllGameRoom());
+        System.out.println(jsonInString);
+        this.template.convertAndSend("/topic/gamerooms", gameRoomService.getAllGameRoom());
     }
 
 }

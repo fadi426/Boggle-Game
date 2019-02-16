@@ -7,13 +7,14 @@ public class GameRoom {
 
     private String uuid;
     private String name;
+    private String available;
     private List<Player> players;
 
     public GameRoom(){
 
     }
 
-    public GameRoom(String uuid, String name, List<Player> players){
+    public GameRoom(String uuid, String name, String available, List<Player> players){
         this.uuid = uuid;
         this.name = name;
         players = new ArrayList<Player>();
@@ -29,5 +30,9 @@ public class GameRoom {
 
     public List<Player> getPlayers() {
         return players;
+    }
+
+    public String getAvailable() {
+        return available;
     }
 }

@@ -1,7 +1,10 @@
 <template>
 	<div>
-		<div id="home-content">
-			<router-link to="/singleplayer" id="singlePlayer-button">Singleplayer</router-link>
+		<div>
+			<router-link to="/singleplayer" id="component-button">SinglePlayer</router-link>
+		</div>
+		<div>
+			<router-link to="/multiplayer" id="component-button">MultiPlayer</router-link>
 		</div>
 	</div>
 </template>
@@ -21,7 +24,7 @@ export default {
 </script>
 
 <style>
-#singlePlayer-button {
+#component-button {
   background-color: #FF6F61;
   border: none;
   color: white;
@@ -34,8 +37,9 @@ export default {
   display: inline-block;
   text-decoration: none;
   cursor: pointer;
+  width: 20%
 }
-#singlePlayer-button:hover {
+#component-button:hover {
 	opacity: 1
 }
 </style>

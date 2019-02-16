@@ -16,7 +16,7 @@ export default new Vuex.Store({
     Player: {
       uuid: "",
       name: "",
-      totalScore: 0
+      totalScore: 0,
     },
     gameOver: false,
     capturing: false,

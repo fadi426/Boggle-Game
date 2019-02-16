@@ -1,7 +1,6 @@
 package main;
 
-import main.helper.DictonaryChecker;
-import main.helper.ExternalPostRequest;
+import main.helper.DictonaryChecker;;
 import main.helper.ValidWordJsonBuilder;
 import model.ValidWord;
 import model.Word;

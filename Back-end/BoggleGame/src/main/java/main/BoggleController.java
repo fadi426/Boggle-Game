@@ -64,7 +64,7 @@ public class BoggleController {
 
     @CrossOrigin(origins = "http://localhost:8081")
     @MessageMapping("/hello")
-    @SendTo("/topic/greetings")
+    @SendTo("/topic/gamerooms")
     public String greeting(HelloMessage message) throws Exception {
         Thread.sleep(500); // simulated delay
         Greeting aap = new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");

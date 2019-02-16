@@ -1,10 +1,12 @@
 <template>
-    <div>
+    <div class="playerForm" >
       <div v-for="room in received_messages" :key="room.uuid">
-          <div class="room">
+          <div class="room" >
             <h4> {{ room.name }} </h4>
-            <h5> {{room.players[0].name}} </h5>
-            <h5> {{room.players[1].name}} </h5>
+            <h5> {{room.players[0].name}} </h5> 
+            <h5 v-if="room.players[1]"> 
+                {{room.players[1].name}} 
+            </h5>
           </div>
       </div>
     </div>
@@ -13,9 +15,8 @@
 <script>
 import SockJS from "sockjs-client";
 import Stomp from "webstomp-client";
-
 export default {
-  name: "Score",
+  name: "GameRoomBoard",
   data() {
     return {
       received_messages: [],
@@ -75,10 +76,11 @@ div.room {
   padding: 16px 32px;
   text-align: center;
   font-size: 16px;
-  margin: 4px 2px;
+  margin: 8px 2px;
   opacity: 0.6;
   transition: 0.3s;
   display: inline-block;
   text-decoration: none;
+  width: 20%
 }
 </style>
