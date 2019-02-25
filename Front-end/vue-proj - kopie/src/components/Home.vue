@@ -1,25 +1,18 @@
 <template>
-	<div>
-		<div>
-			<router-link to="/singleplayer" id="component-button">SinglePlayer</router-link>
-		</div>
-		<div>
-			<router-link to="/multiplayer" id="component-button">MultiPlayer</router-link>
-		</div>
+	<div class="home">
+		<vue-3d-menu/>
+    <Slider/>
 	</div>
 </template>
 
 <script>
+import Slider from "./Slider";
 export default {
 	name: "home",
-	data() {
-		return{
-
-		};
-	},
-	methods: {
-
-	}
+	components: { Slider },
+  data() {
+      return {};
+  },
 }
 </script>
 

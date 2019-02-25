@@ -1,10 +1,7 @@
 <template>
-    <div>
-        <div class="playerForm" v-if="!getPlayer.name">
-            <label for="name">What is your name?</label>
-            <input type="text" id="name" v-model="name" placeholder="Your name here...">
-            <button v-on:click="PostPlayer">Save</button>
-        </div>
+    <div class="playerForm" v-if="!getPlayer.name">
+        <input type="text" class="nameInputfield" id="name" v-model="name" placeholder="Enter your name here...">
+        <button class="nameButton" v-on:click="PostPlayer">Save</button>
     </div>
 </template>
 
@@ -41,7 +38,7 @@ export default {
                     if (response)
                     this.$store.commit("createPlayer", payload);
                     else
-                    console.log("something went wrong");
+                    console.log("player has not been added");
                     resolve()
                 });
         });
@@ -51,5 +48,26 @@ export default {
 </script>
 
 <style>
-
+    .nameButton {
+        background-color: #00A591;
+        border: none;
+        color: white;
+        height: 50px;
+        padding: 3px 32px;
+        text-align: center;
+        font-size: 16px;
+        margin: 4px 2px;
+        opacity: 0.6;
+        transition: 0.3s;
+        display: inline-block;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    .nameButton:hover {
+        opacity: 1
+    }
+    .nameInputfield {
+        height: 50px;
+        width: 400px;
+    }
 </style>

@@ -24,6 +24,13 @@ export default {
 }
 
 body {
+  background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);
+  background-position: center center;
+  background-repeat:  no-repeat;
+  background-attachment: fixed;
+  background-size:  cover;
+  background-color: #999;
+  background-size: cover;
   margin: 0;
   overflow: hidden;
   user-select: none;

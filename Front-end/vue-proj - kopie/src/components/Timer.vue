@@ -1,6 +1,6 @@
 <template>
   <div class="timer"> 
-    {{time}}
+    <h4>{{time}}</h4>
   </div>
 </template>
 
@@ -10,7 +10,7 @@ export default {
   data() {
     return {
       time: "",
-      playtime_seconds: 180,
+      playtime_seconds: 5,
     };
   },
   methods: {

@@ -22,12 +22,12 @@ public class SchedulerController {
     @Autowired
     private GameRoomService gameRoomService;
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 1000)
     public void greeting() throws InterruptedException, JsonProcessingException {
         Thread.sleep(1000); // simulated delay
         ObjectMapper mapper = new ObjectMapper();
         String jsonInString = mapper.writeValueAsString(gameRoomService.getAllGameRoom());
-        System.out.println(jsonInString);
+        gameRoomService.removeGameRoom();
         this.template.convertAndSend("/topic/gamerooms", gameRoomService.getAllGameRoom());
     }
 

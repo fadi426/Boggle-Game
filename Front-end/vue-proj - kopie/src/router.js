@@ -1,10 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Timer from './components/Timer'
 import Home from './components/Home'
 import SinglePlayer from './components/SinglePlayer'
-import Score from './components/Score'
-import Multiplayer from './components/MultiPlayer'
+import GameRooms from './components/GameRooms'
+import MultiPlayer from './components/MultiPlayer'
 
 Vue.use(Router)
 
@@ -20,13 +19,6 @@ export default new Router({
         }
       },
       {
-        path: '/timer',
-        name: 'timer',
-        components: {
-            maincontainer: Timer,
-        }
-      },
-      {
         path: '/singleplayer',
         name: 'singlePlayer',
         components: {
@@ -34,17 +26,17 @@ export default new Router({
         }
       },
       {
-        path: '/score',
-        name: 'score',
+        path: '/gamerooms',
+        name: 'gamerooms',
         components: {
-            maincontainer: Score,
+            maincontainer: GameRooms,
         }
       },
       {
-        path: '/multiplayer',
+        path: '/multiplayer/:uuid',
         name: 'multiplayer',
         components: {
-            maincontainer: Multiplayer,
+            maincontainer: MultiPlayer,
         }
       },
     ]

@@ -55,11 +55,12 @@ public class WordService {
         wordList.add(word);
     }
 
+    public void deleteWord(String word) {
+        wordList.removeIf(t ->t.getWord().equals(word));
+    }
+
     public void addValidWord(ValidWord word) {
         validWordList.add(word);
     }
 
-    public void deleteWord(String word) {
-        wordList.removeIf(t ->t.getWord().equals(word));
-    }
 }

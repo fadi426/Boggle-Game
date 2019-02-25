@@ -1,9 +1,10 @@
-</<template>
+<template>
     <div>
         <h2>Current word</h2>
         <h3 class= "currentWord"> {{getWord.word}} </h3>   
         <Timer/>
-        <h4>{{ detectInvalidMove() }}</h4>
+        <h4> {{ detectInvalidMove() }} </h4>
+        <h4> {{ detectShortWord() }} </h4>
     </div>
 </template>
 
@@ -18,10 +19,14 @@ export default {
     },
     methods: {
         detectInvalidMove() {
-            var invalidMove = "";
             if (this.getInvalidMove === true)
                 return "Invalid Move!";
     },
+        detectShortWord() {
+            if(this.getWord.word.length == 1){
+                return "Word is too short";
+            }
+        }
   },
     computed: {
         ...mapGetters([

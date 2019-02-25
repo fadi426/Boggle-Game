@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import axios from 'axios'
 import { stat } from "fs";
 
 Vue.use(Vuex);
@@ -30,9 +29,6 @@ export default new Vuex.Store({
     getWordList: state => {
       return state.wordList;
     },
-    getTotalScore: state => {
-      return state.Player.totalScore;
-    },
     getInvalidMove: state => {
       return state.invalidMove;
     },
@@ -48,8 +44,6 @@ export default new Vuex.Store({
   },
   mutations: {
     addLetter(state, payload) {
-      //console.log(payload.letterIndex);
-
       state.Word.word += payload.letter;
       state.Word.letterIndexList.push(payload.letterIndex);
       state.Word.score = state.Word.word.length;
@@ -57,6 +51,10 @@ export default new Vuex.Store({
     },
     addWord(state, payload){
       state.wordList.push(payload);
+    },
+    removeLetter(state, payload){
+      state.Word.letterIndexList = payload.LetterIndexList;
+      state.Word.word = payload = payload.WordList;
     },
     createPlayer(state, payload){
       state.Player.uuid = payload.uuid;
@@ -70,6 +68,19 @@ export default new Vuex.Store({
         letterIndexList: [],
         isValidWord: undefined,
       } 
+    },
+    resetGame(state) {
+      state.Word = {
+        word: "",
+        score: "",
+        letterIndexList: [],
+        isValidWord: state.isValidWord,
+      };
+      state.Player.totalScore = 0;
+      state.gameOver = false;
+      state.capturing = false;
+      state.wordList = [];
+      state.invalidMove = false;
     },
     adjustInvalidMove(state, payload) {
       state.invalidMove = payload;

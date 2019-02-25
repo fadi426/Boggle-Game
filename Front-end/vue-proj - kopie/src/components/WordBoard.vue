@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h2 align="left">Total score : {{ getTotalScore }}</h2>
         <table class="table">
             <thead>
                 <th>Guessed words</th>
@@ -13,21 +12,18 @@
                 <td>{{ Word.score }}</td>
                 <td > 
                     <img
-                        id="ok"
                         width="30"
                         height="30"
                         v-if="Word.isValidWord == true"
                         src="@/assets/ok.png"
                     />
                     <img
-                        id="notOK"
                         width="30"
                         height="30"
                         v-if="Word.isValidWord == false"
                         src="@/assets/star.png"
                     />
-                    <loading-icon
-                        id="loading"
+                    <LoadingIcon
                         v-if="Word.isValidWord == undefined"
                     />
                 </td>
@@ -49,11 +45,16 @@ export default {
     computed: {
         ...mapGetters([
             "getWordList",
-            "getTotalScore",
         ])
     }
 };
 </script>
 
 <style>
+th {
+  color: white;
+}
+td {
+  color: white;
+}
 </style>

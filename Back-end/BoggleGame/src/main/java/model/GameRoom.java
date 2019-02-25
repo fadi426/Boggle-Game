@@ -7,17 +7,19 @@ public class GameRoom {
 
     private String uuid;
     private String name;
-    private String available;
+    private boolean started;
     private List<Player> players;
+    private List<String> letters;
 
     public GameRoom(){
 
     }
 
-    public GameRoom(String uuid, String name, String available, List<Player> players){
+    public GameRoom(String uuid, String name,List<Player> players, List<String> letters, boolean started){
         this.uuid = uuid;
         this.name = name;
         players = new ArrayList<Player>();
+        letters = new ArrayList<String>();
     }
 
     public String getUuid() {
@@ -32,7 +34,15 @@ public class GameRoom {
         return players;
     }
 
-    public String getAvailable() {
-        return available;
+    public List<String> getLetters() {
+        return letters;
+    }
+
+    public void setLetters(List<String> letters) {
+        this.letters = letters;
+    }
+
+    public boolean getStarted() {
+        return started;
     }
 }

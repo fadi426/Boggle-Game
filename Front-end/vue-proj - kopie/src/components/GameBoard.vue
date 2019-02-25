@@ -6,12 +6,11 @@
         @mousedown="startCapturing"
         @mouseup="stopCapturing"
       >
-        <GameBoardLetter
-          v-for="(letter, index) in letters()"
+        <GameBoardLetter 
+          v-for="(letter, index) in letterArray"
           :key="index"
           :letter="letter"
           :letterIndex="index"
-          :coord="{x: (index -1) % 5 + 1, y: Math.floor(index/5.01)}"
         />
       </div>
     </div>
@@ -22,11 +21,11 @@
 import { mapGetters } from "vuex";
 import GameBoardLetter from "./GameBoardLetter";
 import axios from 'axios';
-import _ from "underscore";
 
 export default {
   name: "GameBoard",
   components: { GameBoardLetter },
+  props: ["letterArray"],
   data() {
     return {};
   },
@@ -39,41 +38,6 @@ export default {
     ])
   },
   methods: {
-    letters() {
-      let alphabet = [
-        "a",
-        "b",
-        "c",
-        "d",
-        "e",
-        "f",
-        "g",
-        "h",
-        "i",
-        "j",
-        "k",
-        "l",
-        "m",
-        "n",
-        "o",
-        "p",
-        "q",
-        "r",
-        "s",
-        "t",
-        "u",
-        "v",
-        "w",
-        "x",
-        "y",
-        "z"
-      ];
-      let letters = [];
-      for (let i = 0; i < 25; i++) {
-        letters.push(alphabet[_.random(alphabet.length - 1)]);
-      }
-      return letters;
-    },
     startCapturing() {
       if(!this.getGameOver)
       this.$store.dispatch("startCapturing");
@@ -86,25 +50,24 @@ export default {
       this.$store.commit("resetWord");
 
       if (Word.word && 
-          !this.getWordList.some(e => e.word === Word.word) &&
-          !this.getInvalidMove) {
-            this.$store.commit("addWord", Word);
-        return new Promise((resolve) => {
-          axios.post('http://localhost:8080/words', { 'word': Word.word, 'score': Word.score })
-          .then((response) => {
-            if (response.data.validWord == true){
-              Word.isValidWord = true;
-              this.$store.commit("addScorePoints", Word.score);
-            }
-            if (response.data.validWord == false)
-              Word.isValidWord = false;
-            console.log(Word.word + " " + Word.isValidWord );
-            resolve()
+        !this.getWordList.some(e => e.word === Word.word) &&
+        !this.getInvalidMove && Word.word.length > 1) {
+          this.$store.commit("addWord", Word);
+          return new Promise((resolve) => {
+            axios.post('http://localhost:8080/words', { 'word': Word.word, 'score': Word.score })
+            .then((response) => {
+              if (response.data.validWord == true){
+                Word.isValidWord = true;
+                this.$store.commit("addScorePoints", Word.score);
+              }
+              if (response.data.validWord == false)
+                Word.isValidWord = false;
+              resolve()
+            });
           });
-        });
       }
     }
-  }
+  },
 };
 </script>
 

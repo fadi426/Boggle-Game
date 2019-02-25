@@ -1,7 +1,7 @@
 <template>
   <div
     class="gameboard-letter" :style="changePressedLetterStyle"
-    v-on="capturing ? { mouseover: () => addLetter() } : {} "
+    v-on="capturing ? { mouseover: () => selectLetters() } : {} "
   >
     <p id="p2">{{ letter }}</p>
 
@@ -12,16 +12,29 @@
 import { mapGetters } from "vuex";
 export default {
   name: "GameBoardLetter",
-  props: ["letter", "letterIndex", "coord"],
+  props: ["letter", "letterIndex"],
   data() {
-    return {
-      isActive : false,
-    };
+    return {};
   },
   methods: {
-    addLetter() {
+
+    selectLetters() {
       var payload = { letter: this.letter, letterIndex: this.letterIndex };
       var lastMoveIndex = this.getWord.letterIndexList[this.getWord.letterIndexList.length - 1];
+
+      if (
+        this.getWord.letterIndexList.includes(this.letterIndex) &&
+        !this.getInvalidMove && this.letterIndex != lastMoveIndex
+      ) {
+        let indexOfLetter = this.getWord.letterIndexList.indexOf(this.letterIndex) +1;
+
+        let letterIndexList = this.getWord.letterIndexList.slice(0,
+          this.getWord.letterIndexList.indexOf(indexOfLetter));
+
+        let wordList = this.getWord.word.slice(0, indexOfLetter);
+
+        this.$store.commit("removeLetter", { LetterIndexList: letterIndexList, WordList: wordList });
+      }
 
       if (
         !this.getWord.letterIndexList.includes(this.letterIndex) &&
@@ -39,7 +52,6 @@ export default {
           lastMoveIndex === payload.letterIndex - 6
         ) {
           this.$store.commit("addLetter", payload);
-          this.isActive = true;
         } else {
         this.$store.commit("adjustInvalidMove", true);
         }
@@ -52,11 +64,8 @@ export default {
       return this.$store.state.capturing;
     },
     changePressedLetterStyle(){
-      if (!this.$store.state.capturing) {
-         this.isActive = false; 
-      }
       return {
-        backgroundColor : this.isActive  ? '#00A591' : '#FF6F61'
+        backgroundColor : this.getWord.letterIndexList.includes(this.letterIndex)  ? '#00A591' : '#FF6F61'
       }
     }
   }

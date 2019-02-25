@@ -1,5 +1,6 @@
 package main;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import main.service.GameRoomService;
 import main.service.PlayerService;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.HtmlUtils;
 
 import java.util.List;
 
@@ -25,17 +25,17 @@ public class BoggleController {
     @Autowired
     private GameRoomService gameRoomService;
 
-    @CrossOrigin(origins = "http://localhost:8081")
-    @RequestMapping("/words")
-    public List<Word> getAllArticles(){
-        return wordService.getAllWords();
-    }
+//    @CrossOrigin(origins = "http://localhost:8081")
+//    @RequestMapping("/words")
+//    public List<Word> getAllArticles(){
+//        return wordService.getAllWords();
+//    }
 
-    @CrossOrigin(origins = "http://localhost:8081")
-    @RequestMapping("/word/{word}")
-    public Word getWord(@PathVariable String word){
-        return wordService.getWord(word);
-    }
+//    @CrossOrigin(origins = "http://localhost:8081")
+//    @RequestMapping("/word/{word}")
+//    public Word getWord(@PathVariable String word){
+//        return wordService.getWord(word);
+//    }
 
     @CrossOrigin(origins = "http://localhost:8081")
     @RequestMapping(method = RequestMethod.POST, value = "/words")
@@ -44,34 +44,17 @@ public class BoggleController {
         return wordService.checkWord(word);
     }
 
-    @CrossOrigin(origins = "http://localhost:8081")
-    @RequestMapping(method = RequestMethod.DELETE, value = "words/{word}")
-    public void deleteWord(@PathVariable String word){
-        wordService.deleteWord(word);
-    }
+//    @CrossOrigin(origins = "http://localhost:8081")
+//    @RequestMapping(method = RequestMethod.POST, value = "test1")
+//    public void test1(@RequestBody ValidWord word){
+//        wordService.addValidWord(word);
+//    }
 
-    @CrossOrigin(origins = "http://localhost:8081")
-    @RequestMapping(method = RequestMethod.POST, value = "test1")
-    public void test1(@RequestBody ValidWord word){
-        wordService.addValidWord(word);
-    }
-
-    @CrossOrigin(origins = "http://localhost:8081")
-    @RequestMapping("/test1")
-    public List<ValidWord> getAllValidWords(){
-        return wordService.getAllValidWords();
-    }
-
-    @CrossOrigin(origins = "http://localhost:8081")
-    @MessageMapping("/hello")
-    @SendTo("/topic/gamerooms")
-    public String greeting(HelloMessage message) throws Exception {
-        Thread.sleep(500); // simulated delay
-        Greeting aap = new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonInString = mapper.writeValueAsString(aap);
-        return jsonInString;
-    }
+//    @CrossOrigin(origins = "http://localhost:8081")
+//    @RequestMapping("/test1")
+//    public List<ValidWord> getAllValidWords(){
+//        return wordService.getAllValidWords();
+//    }
 
     @CrossOrigin(origins = "http://localhost:8081")
     @RequestMapping("/players")
@@ -82,7 +65,7 @@ public class BoggleController {
     @CrossOrigin(origins = "http://localhost:8081")
     @RequestMapping(method = RequestMethod.POST, value = "/players")
     public void addPlayers(@RequestBody Player player){
-        System.out.println(player.getName());
+        //System.out.println(player.getName());
          playerService.addPlayer(player);
     }
 
@@ -95,9 +78,36 @@ public class BoggleController {
     @CrossOrigin(origins = "http://localhost:8081")
     @RequestMapping(method = RequestMethod.POST, value = "/gamerooms")
     public void addGameRooms(@RequestBody GameRoom gameRoom){
-        System.out.println(gameRoom.getName());
+        //System.out.println(gameRoom.getName());
         gameRoomService.addGameRoom(gameRoom);
     }
 
+    @CrossOrigin(origins = "http://localhost:8081")
+    @RequestMapping(method = RequestMethod.POST, value = "/gamerooms/addplayer")
+    public void addPlayerToGameRoom(@RequestBody PlayerToRoom playerToRoom){
+        //System.out.println(playerToRoom.getGameRoomId() + " " + playerToRoom.getPlayers().getName());
+        gameRoomService.addPlayerToGame(playerToRoom.getGameRoomId(), playerToRoom.getPlayers());
+    }
+
+    @CrossOrigin(origins = "http://localhost:8081")
+    @RequestMapping(method = RequestMethod.POST, value = "/gamerooms/removeplayer")
+    public void removePlayerFromGame(@RequestBody PlayerToRoom playerToRoom){
+        gameRoomService.removePlayerToGame(playerToRoom.getGameRoomId(), playerToRoom.getPlayers());
+        //System.out.println("removed!");
+    }
+
+    @CrossOrigin(origins = "http://localhost:8081")
+    @MessageMapping("/hello")
+    @SendTo("/topic/gamerooms")
+    public void showGameRooms(String message) throws Exception {
+        Thread.sleep(500); // simulated delay
+        //System.out.println(message);
+        ObjectMapper mapper = new ObjectMapper()
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        PlayerToRoom playerToRoom = mapper.readValue(message, PlayerToRoom.class);
+        gameRoomService.increasePlayerGameScore(playerToRoom.getGameRoomId(), playerToRoom.getPlayers());
+
+        //System.out.println(message);
+    }
 
 }
