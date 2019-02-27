@@ -5,12 +5,13 @@
 </template>
 
 <script>
+import { mapGetters, mapState } from "vuex";
 export default {
   name: "Timer",
   data() {
     return {
       time: "",
-      playtime_seconds: 5,
+      playtime_seconds: 180,
     };
   },
   methods: {
@@ -36,9 +37,29 @@ export default {
       let timer = setInterval(tick, 1000);
       tick();
     },
+    resetTimer() {
+      if(this.time == "00:00"  && this.gameOver == false){
+        this.playtime_seconds = 180;
+        this.Timer();
+      }
+    }
   },
   created() {
     this.Timer();
+  },
+  computed: {
+    ...mapGetters([
+      "getGameOver",
+    ]),
+    gameOver() {
+      return this.getGameOver;
+    },
+  },
+  watch: {
+    gameOver: function() {
+
+      this.resetTimer();
+    }
   },
 };
 </script>
