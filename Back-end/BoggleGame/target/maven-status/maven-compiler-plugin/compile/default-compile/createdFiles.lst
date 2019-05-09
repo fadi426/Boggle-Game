@@ -12,5 +12,5 @@ model\Word.class
 main\MainController.class
 model\Player.class
 main\service\PlayerService.class
-model\HelloMessage.class
 model\GameRoom.class
+model\PlayerToRoom.class

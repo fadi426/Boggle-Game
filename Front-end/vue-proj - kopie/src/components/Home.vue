@@ -1,6 +1,11 @@
 <template>
-	<div class="home">
-		<vue-3d-menu/>
+	<div class="homeContainer">
+      <ion-card>
+        <ion-card-content>
+          <ion-card-title>Boggle Game</ion-card-title>
+          <ion-card-subtitle>Made by Fadi Qadadi</ion-card-subtitle>
+        </ion-card-content>
+      </ion-card>
     <Slider/>
 	</div>
 </template>
@@ -8,31 +13,26 @@
 <script>
 import Slider from "./Slider";
 export default {
-	name: "home",
-	components: { Slider },
+  name: "home",
+  components: { Slider },
   data() {
-      return {};
-  },
-}
+    return {};
+  }
+};
 </script>
 
-<style>
-#component-button {
-  background-color: #FF6F61;
-  border: none;
-  color: white;
-  padding: 16px 32px;
-  text-align: center;
-  font-size: 16px;
-  margin: 4px 2px;
-  opacity: 0.6;
-  transition: 0.3s;
+<style lang="scss">
+.homeContainer {
+  position: absolute;
+  width: 100vw;
+  flex-flow: column wrap;
+  align-content: center;
+  justify-content: center;
+
+  ion-card {
+    max-width: 400px;
+      width: 98vw;
   display: inline-block;
-  text-decoration: none;
-  cursor: pointer;
-  width: 20%
-}
-#component-button:hover {
-	opacity: 1
+  }
 }
 </style>

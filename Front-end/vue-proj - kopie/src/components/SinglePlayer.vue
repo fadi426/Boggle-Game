@@ -1,16 +1,19 @@
 <template>
-  <div>
-    <vue-3d-menu id="navBar"/>
-    <div class="secondLayer">
-      <div class="column">
-        <GameBoard v-bind:letterArray="letterList"/>
-        <InformationBoard />
-      </div>
-      <div class="column">
-        <h2 align="left">Total score : {{ getPlayer.totalScore }}</h2>
-        <WordBoard />
-      </div>
-    </div>
+  <div class="singlePlayerContainer">
+      <ion-card>
+        <ion-card-content >
+          <GameBoard v-bind:letterArray="letterList"/>
+          <InformationBoard />
+        </ion-card-content>
+      </ion-card>
+ 
+    <ion-card>
+      <ion-card-content>
+        <h2>Total score : {{ getPlayer.totalScore }}</h2>
+        <WordBoard/>
+      </ion-card-content>
+   </ion-card>
+
     </div>
 </template>
 
@@ -29,20 +32,17 @@ export default {
     WordBoard,
     InformationBoard
   },
-    data() {
+  data() {
     return {
-      letterList: this.letters(),
+      letterList: this.letters()
     };
   },
   computed: {
-    ...mapGetters([
-      "getPlayer",
-      "getGameOver",
-    ]),
+    ...mapGetters(["getPlayer", "getGameOver"]),
     ...mapState(["capturing"]),
     gameOver() {
       return this.getGameOver;
-    },
+    }
   },
   watch: {
     gameOver: function() {
@@ -51,18 +51,16 @@ export default {
   },
   methods: {
     showResultScreen() {
-      if(this.getGameOver == true){
+      if (this.getGameOver == true) {
         swal({
           title: "Time is up!",
           text: "Your score is: " + this.getPlayer.totalScore,
           type: "success",
           icon: Medal,
           buttons: "Play again"
-        }).then(()=> {
-
+        }).then(() => {
           this.resetGame(); // this should execute now
-
-        })
+        });
       }
     },
     letters() {
@@ -101,42 +99,30 @@ export default {
       return letters;
     },
     resetGame() {
-     this.$store.commit("resetGame");
+      this.$store.commit("resetGame");
     }
   },
   mounted() {
     this.resetGame();
-  },
+  }
 };
 </script>
 
-<style>
-* {
-  box-sizing: border-box;
-}
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-.column {
-  float: left;
-  width: 50%;
-  padding: 10px;
-  
-  
-}
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-#navBar {
-   position:absolute;
-   top:0;
-   right:0;
+<style lang="scss">
+.singlePlayerContainer {
+  position: absolute;
+  display: flex;
+  width: 100vw;
+  flex-flow: row wrap;
+  align-content: center;
+  justify-content: center;
+
+  ion-card {
+    max-width: 400px;
+    width: 98vw;
+    display: inline-block;
+  }
 }
 </style>
+
+

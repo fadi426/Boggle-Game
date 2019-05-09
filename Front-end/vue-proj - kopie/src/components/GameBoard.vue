@@ -76,9 +76,9 @@ export default {
   display: flex;
   flex-wrap: wrap;
   list-style-type: none;
-  width: calc(11em + 15px);
+  width: calc(11em + 14px);
   padding: 0;
-  font-size: 30px;
+  font-size: 25px;
 }
 .letter {
   border: 1px solid;

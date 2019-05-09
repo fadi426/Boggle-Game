@@ -1,9 +1,9 @@
 <template>
     <div>
-        <div class="gameRoomForm" v-if="getPlayer.name">
-            <input type="text" class="roomInputfield" id="name" v-model="name" placeholder="Enter your gameroom name here...">
+        <div class="saveGameRoomContainer" v-if="getPlayer.name">
+            <input type="text" v-model="name" placeholder="Enter your gameroom name here...">
             <router-link :to="{ name: 'multiplayer', params: { uuid: this.uuid }} ">
-                <button class="gameRoomButton" v-on:click="PostPlayer">Add Room</button>
+                <ion-button expand="full" v-on:click="PostPlayer">send</ion-button>
             </router-link>
         </div>
     </div>
@@ -109,27 +109,31 @@ export default {
 }
 </script>
 
-<style>
-    .gameRoomButton {
-        background-color: #00A591;
+<style lang="scss">
+
+.saveGameRoomContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+    input[type=text] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
         border: none;
-        color: white;
-        height: 50px;
-        padding: 3px 32px;
-        text-align: center;
-        font-size: 16px;
-        margin: 4px 2px;
-        opacity: 0.6;
-        transition: 0.3s;
-        display: inline-block;
-        text-decoration: none;
-        cursor: pointer;
+        border-bottom: 1.5px solid black;
+        outline: none
     }
-    .gameRoomButton:hover {
-        opacity: 1
+    a{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
     }
-    .roomInputfield {
-        height: 50px;
-        width: 360px;
+    ion-button{
+        width: 50%;
     }
+}
 </style>

@@ -1,15 +1,21 @@
 <template>
-    <div>
-      <vue-3d-menu id="navBar"/>
-      <h2>Lobby</h2>
-      <SavePlayer/>
-      <SaveGameRoom/>
+  <div class="gameRoomsContainer">
+      <ion-card class="gameInfo">
+        <ion-card-content >
+          <ion-card-title>Lobby</ion-card-title>
+          <SavePlayer/>
+          <SaveGameRoom/>
+        </ion-card-content>
+      </ion-card>
+ 
+
       <div v-for="room in received_messages"
         :key="room.uuid"
-        >
-          <div class="room" 
-            :style=" {backgroundColor : room.players.length > 1  ? '#00A591' : '#FF6F61'}"
-          >
+      >
+      <ion-card class="gameroom"
+        :style=" {backgroundColor : room.players.length > 1  ? '#00A591' : '#FF6F61'}"
+      >
+       <ion-card-content>
             <h4> {{ room.name }} </h4>
             <div>
               <h5 v-if="room.players[0]"> 
@@ -19,10 +25,16 @@
               </h5>
               <h4> 2 / {{room.players.length}}</h4>
             </div>
-              <div class="joinButton" v-if="room.players.length < 2 ">
+              <!-- <div class="joinButton" v-if="room.players.length < 2 ">
                   <AddPlayerToRoom v-bind:gameRoomId="room.uuid"/>
-              </div>
-           </div>
+              </div> -->
+              <ion-button color="primary" v-if="room.players.length > 2 " expand="full">Join
+                  <AddPlayerToRoom v-bind:gameRoomId="room.uuid"/>
+              </ion-button>
+              <ion-button color="danger" v-else expand="full">Join
+              </ion-button>
+        </ion-card-content>
+      </ion-card>
       </div>
     </div>
 </template>
@@ -84,36 +96,48 @@ export default {
 };
 </script>
 
-<style>
-div.room {
-  background-color: #FF6F61;
-  border: none;
-  color: white;
-  padding: 16px 32px;
-  text-align: center;
-  font-size: 16px;
-  margin: 8px 2px;
-  opacity: 0.7;
-  transition: 0.3s;
-  display: inline-block;
-  text-decoration: none;
-  width: 20%
+<style lang="scss">
+.gameRoomsContainer{
+
+  position: absolute;
+  display: flex;
+  width: 100vw;
+  flex-flow: row wrap;
+  align-content: center;
+  justify-content: center;
+
+  #gameInfo {
+    max-width: 400px;
+    width: 98vw;
+    display: inline-block;
+    }
+  #gameroom{
+      position: absolute;
+    display: flex;
+    width: 300px;
+    flex-flow: row wrap;
+    align-content: center;
+    justify-content: center;
+    max-width: 400px;
+    display: inline-block;
+  }
+
+  // #room{
+  //   background-color: #FF6F61;
+  //   border: none;
+  //   color: white;
+  //   padding: 16px 32px;
+  //   text-align: center;
+  //   font-size: 16px;
+  //   margin: 8px 2px;
+  //   opacity: 0.7;
+  //   transition: 0.3s;
+  //   display: inline-block;
+  //   text-decoration: none;
+  //   width: 20%
+  // }
+
 }
-div.room:hover {
-  opacity: 1;
-}
-h2 {
-  color: white;
-  font-weight: bold;
-}
-h1 {
-  color: white;
-  font-weight: bold;
-}
-h3 {
-  color: white;
-}
-h4 {
-  color: white;
-}
+
+
 </style>

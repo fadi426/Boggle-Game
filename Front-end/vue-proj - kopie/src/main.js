@@ -6,9 +6,12 @@ import store from './store'
 import router from './router'
 import VueSwal from 'vue-swal'
 import Vue3dMenu from './Vue3dMenu';
+import Ionic from '@ionic/vue';
+
 
 Vue.use(Vue3dMenu);
 Vue.use(VueSwal);
+Vue.use(Ionic);
 Vue.config.productionTip = false
 
 new Vue({

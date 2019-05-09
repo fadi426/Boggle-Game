@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2>Current word</h2>
+        <ion-card-subtitle>Current word</ion-card-subtitle>
         <h3 class= "currentWord"> {{getWord.word}} </h3>   
         <Timer/>
         <h4> {{ detectInvalidMove() }} </h4>
@@ -38,12 +38,6 @@ export default {
 </script>
 
 <style>
-    table {
-        display: block;
-        overflow: auto;
-        height: 300px;
-        width: 300px;
-    }
     h3.currentWord {
 	display: flex;
 	align-items: flex-start;

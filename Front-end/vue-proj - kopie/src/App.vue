@@ -1,15 +1,15 @@
 <template>
   <div id="app">
+    <NavBar/>
     <router-view name="maincontainer" />
     <router-view name="additional" />
   </div>
 </template>
 
 <script>
-
+import NavBar from "./components/NavBar";
 export default {
-  components: {
-  }
+	components: { NavBar },
 }
 </script>
 
@@ -24,12 +24,11 @@ export default {
 }
 
 body {
-  background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);
+  background-color: white;
   background-position: center center;
   background-repeat:  no-repeat;
   background-attachment: fixed;
   background-size:  cover;
-  background-color: #999;
   background-size: cover;
   margin: 0;
   overflow: hidden;
@@ -48,5 +47,14 @@ html {
 ::-webkit-scrollbar {
   width: 0px;
   height: 0px;
+}
+h1 {
+  color: black;
+}
+h2 {
+  color: black;
+}
+h3 {
+  color: black;
 }
 </style>
