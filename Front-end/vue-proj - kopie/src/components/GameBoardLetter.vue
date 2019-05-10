@@ -3,7 +3,7 @@
     class="gameboard-letter" :style="changePressedLetterStyle"
     v-on="capturing ? { mouseover: () => selectLetters() } : {} "
   >
-    <p id="p2">{{ letter }}</p>
+    <ion-label>{{ letter }}</ion-label>
 
   </div>
 </template>
@@ -65,7 +65,7 @@ export default {
     },
     changePressedLetterStyle(){
       return {
-        backgroundColor : this.getWord.letterIndexList.includes(this.letterIndex)  ? '#00A591' : '#FF6F61'
+        backgroundColor : this.getWord.letterIndexList.includes(this.letterIndex)  ? '#3880FF' : '#00A591'
       }
     }
   }
@@ -74,7 +74,7 @@ export default {
 
 <style>
 .gameboard-letter {
-  background-color: #FF6F61;
+  background-color: 3880FF;
   color: white;
   border: 1px solid;
   width: 2em;
@@ -83,7 +83,7 @@ export default {
   justify-content: center;
   line-height: 2em;
   user-select: none;
-  opacity: 0.7;
+  opacity: 0.9;
   transition: 0.3s;
   margin: 3px;
 }

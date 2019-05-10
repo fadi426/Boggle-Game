@@ -62,6 +62,8 @@ export default {
   }
   ion-icon{
     zoom: 10.0;
+    color: #00A591;
+    opacity: 0.9;
   }
 }
 </style>

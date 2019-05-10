@@ -82,7 +82,7 @@ export default {
 
   .table thead th:nth-child(odd) {
     color: #ffffff;
-    background: #324960;
+    background: #3880FF;
   }
 
   .table tr:nth-child(even) {
