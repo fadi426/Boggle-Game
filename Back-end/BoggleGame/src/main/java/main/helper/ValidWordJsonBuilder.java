@@ -2,12 +2,11 @@ package main.helper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import model.ValidWord;
 import model.Word;
 
 public class ValidWordJsonBuilder {
 
-    public static String ObjectToJson(ValidWord word) {
+    public static String ObjectToJson(Word word) {
         String json = "";
         ObjectMapper mapper = new ObjectMapper();
         try {

@@ -54,14 +54,15 @@ export default {
         !this.getInvalidMove && Word.word.length > 1) {
           this.$store.commit("addWord", Word);
           return new Promise((resolve) => {
-            axios.post('http://localhost:8080/words', { 'word': Word.word, 'score': Word.score })
+            axios.post('http://localhost:8080/words', { 'word': Word.word, isValid: false, score: 0  })
             .then((response) => {
-              if (response.data.validWord == true){
-                Word.isValidWord = true;
-                this.$store.commit("addScorePoints", Word.score);
+              if (response.data.isValid == true){
+                console.log(response.data);
+                Word.isValid = true;
+                this.$store.commit("addScorePoints", response.data.score);
               }
-              if (response.data.validWord == false)
-                Word.isValidWord = false;
+              if (response.data.isValid == false)
+                Word.isValid = false;
               resolve()
             });
           });

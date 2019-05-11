@@ -5,8 +5,6 @@ main\WebSocketConfig.class
 main\service\WordService.class
 main\BoggleService.class
 main\service\GameRoomService.class
-model\Greeting.class
-model\ValidWord.class
 main\SchedulerController.class
 model\Word.class
 main\MainController.class

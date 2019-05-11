@@ -59,7 +59,7 @@ export default {
           icon: Medal,
           buttons: "Play again"
         }).then(() => {
-          this.resetGame(); // this should execute now
+          this.resetGame();
         });
       }
     },

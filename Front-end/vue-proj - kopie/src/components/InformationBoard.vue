@@ -38,10 +38,10 @@ export default {
 </script>
 
 <style>
-    h3.currentWord {
-	display: flex;
-	align-items: flex-start;
-	justify-content: center;
-	height: 30px;
+h3.currentWord {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    height: 30px;
 }
 </style>

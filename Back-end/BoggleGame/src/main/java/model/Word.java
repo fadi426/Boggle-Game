@@ -1,16 +1,18 @@
 package model;
 
 public class Word {
+
     private String word;
+    private boolean isValid;
     private int score;
-//    private boolean validWord;
 
     public Word() {
 
     }
 
-    public Word(String word, int score){
+    public Word(String word, boolean isValid, int score){
         this.word = word;
+        this.isValid = isValid;
         this.score = score;
     }
 
@@ -18,23 +20,23 @@ public class Word {
         return word;
     }
 
-    public void setWord() {
-        this.word = word;
+    public boolean getIsValid() {
+        return this.isValid;
     }
 
     public int getScore() {
         return score;
     }
 
-    public void setScore() {
+    public void setIsValid(boolean isValid) {
+        this.isValid = isValid;
+    }
+
+    public void setScore(int score) {
         this.score = score;
     }
 
-//    public boolean getValidWord(){
-//        return this.validWord;
-//    }
-//
-//    public void setValidWord() {
-//        this.validWord = validWord;
-//    }
+    public void setWord(String word) {
+        this.word = word;
+    }
 }

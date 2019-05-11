@@ -12,10 +12,6 @@ public class PlayerService {
 
     List<Player> playerList = new ArrayList<Player>(Arrays.asList());
 
-    public List<Player> getAllPlayers() {
-        return playerList;
-    }
-
     public void addPlayer(Player player) {
         playerList.add(player);
     }

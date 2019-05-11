@@ -10,7 +10,7 @@ export default new Vuex.Store({
       word: "",
       score: "",
       letterIndexList: [],
-      isValidWord: undefined
+      isValid: undefined
     },
     Player: {
       uuid: "",
@@ -66,7 +66,7 @@ export default new Vuex.Store({
         word: "",
         score: "",
         letterIndexList: [],
-        isValidWord: undefined,
+        isValid: undefined,
       } 
     },
     resetGame(state) {
@@ -74,7 +74,7 @@ export default new Vuex.Store({
         word: "",
         score: "",
         letterIndexList: [],
-        isValidWord: state.isValidWord,
+        isValid: state.isValid,
       };
       state.Player.totalScore = 0;
       state.gameOver = false;

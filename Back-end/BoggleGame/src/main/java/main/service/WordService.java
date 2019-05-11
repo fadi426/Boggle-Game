@@ -1,66 +1,54 @@
 package main.service;
 
 import main.helper.DictonaryChecker;
-//import main.helper.ExternalPostRequest;
 import main.helper.ValidWordJsonBuilder;
-import model.ValidWord;
 import model.Word;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 @Service
 public class WordService {
-
-    List<Word> wordList = new ArrayList<Word>(Arrays.asList());
-    List<ValidWord> validWordList = new ArrayList<ValidWord>(Arrays.asList());
-    public List<Word> getAllWords(){
-        return wordList;
-    }
-
-    public List<ValidWord> getAllValidWords(){
-        return validWordList;
-    }
-
-    public Word getWord(String word){
-        return wordList.stream().filter(t -> t.getWord().equals(word)).findFirst().get();
-    }
-
-    public String checkWord(Word word) {
-        String response = "Undefined";
+    ArrayList<Integer> wordLength = new ArrayList<Integer>(Arrays.asList(3, 4, 5, 6, 7,8));
+    ArrayList<Integer> scorePoints = new ArrayList<Integer>(Arrays.asList(1, 1, 2, 3, 5, 11));
+    public Word checkWord(Word word) {
          try {
             boolean valid = DictonaryChecker.readInDictionaryWords(word.getWord());
-             response = sendValidityOutcome(valid);
+             return sendValidityOutcome(word.getWord(),valid);
         } catch (IOException e) {
             System.out.println(e);
         }
-        return response;
+        return new Word("Undefined", false, 0);
     }
 
-    public String sendValidityOutcome(boolean valid){
-        ValidWord validWord = new ValidWord();
-        validWord.setValidWord(valid);
+    public Word sendValidityOutcome(String word, boolean valid){
+        Word validWord = new Word();
+        validWord.setWord(word);
+        validWord.setIsValid(valid);
+        if (valid)
+            validWord.setScore(rateWord(word));
+        else
+            validWord.setScore(0);
 
         String ValidityOutcomeJson = ValidWordJsonBuilder.ObjectToJson(validWord);
         System.out.println(ValidityOutcomeJson);
-        //ExternalPostRequest.HttpPostValidWord(ValidityOutcomeJson);
-        return (ValidityOutcomeJson);
+        return (validWord);
     }
 
-    public void addWord(Word word) {
-        wordList.add(word);
+    public int rateWord(String word){
+        int score = 0;
+        for (int i = 0; i < wordLength.size(); i++){
+            if (word.length() >= wordLength.get(i) && word.length() < wordLength.get(i) + 1 && i != wordLength.size()-1){
+                score = scorePoints.get(i);
+                break;
+            }
+            if (i >= wordLength.size()-1) {
+                score = scorePoints.get(scorePoints.size() - 1);
+                break;
+            }
+        }
+        return score;
     }
-
-    public void deleteWord(String word) {
-        wordList.removeIf(t ->t.getWord().equals(word));
-    }
-
-    public void addValidWord(ValidWord word) {
-        validWordList.add(word);
-    }
-
 }

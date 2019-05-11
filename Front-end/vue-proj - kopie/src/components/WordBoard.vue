@@ -9,21 +9,21 @@
             <tbody>
                 <tr v-for="Word in getWordList" :key="Word.state" >
                 <td>{{ Word.word }}</td>
-                <td v-if="Word.isValidWord == true">{{ Word.score }}</td>
+                <td v-if="Word.isValid == true">{{ Word.score }}</td>
                 <td v-else> 0 </td>
                 <td > 
                     <img
                         style="width:30px;height:30px;"
-                        v-if="Word.isValidWord == true"
+                        v-if="Word.isValid == true"
                         src="@/assets/ok.png"
                     />
                     <img
                     style="width:30px;height:30px;"
-                        v-if="Word.isValidWord == false"
+                        v-if="Word.isValid == false"
                         src="@/assets/star.png"
                     />
                     <LoadingIcon
-                        v-if="Word.isValidWord == undefined"
+                        v-if="Word.isValid == undefined"
                     />
                 </td>
                 </tr>
