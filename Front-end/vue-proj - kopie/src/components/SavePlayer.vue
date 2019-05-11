@@ -1,7 +1,6 @@
 <template>
     <div class="savePlayerContainer" v-if="!getPlayer.name">
         <input type="text" v-model="name" placeholder="Enter your name here...">
-        <!-- <button class="nameButton" v-on:click="PostPlayer">Save</button> -->
         <ion-button expand="full" v-on:click="PostPlayer">send</ion-button>
     </div>
 </template>

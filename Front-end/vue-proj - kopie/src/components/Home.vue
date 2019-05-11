@@ -31,8 +31,8 @@ export default {
 
   ion-card {
     max-width: 400px;
-      width: 98vw;
-  display: inline-block;
+    width: 98vw;
+    display: inline-block;
   }
 }
 </style>

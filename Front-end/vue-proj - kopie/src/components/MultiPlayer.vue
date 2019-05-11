@@ -1,38 +1,40 @@
 <template>
-  <div>
-    <vue-3d-menu id="navBar"/>
+  <div class="multiPlayerContainer">
     <div v-if="getPlayer.name.length !== 0">
-      <div v-if="opponent != '' && checkValidSession() == true">
-        <div class="column">
-          <GameBoard v-bind:letterArray="letterList"/>
-          <InformationBoard />
-        </div>
-        <div class="column">
-          <h3 align="left"> Score </h3>
-          <h4 align="left" v-html="findMatchInfo()"></h4>
-          <WordBoard />
-        </div>
+      <div class="gameContainer" v-if="opponent != '' && checkValidSession() == true">
+        <ion-card>
+          <ion-card-content >
+            <GameBoard v-bind:letterArray="letterList"/>
+            <InformationBoard />
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-card-content>
+            <ion-card-title align="left"> Score </ion-card-title>
+            <ion-card-subtitle align="left" v-html="findMatchInfo()"></ion-card-subtitle>
+            <WordBoard />
+          </ion-card-content>
+        </ion-card>
       </div>
       <div v-else>
-        <center>
-        <h1> Waiting for 1 more player </h1>
-        <h4 v-html="findMatchInfo() "></h4>
-        <LoadingIconMultiPlayer/>
-        </center>
+        <ion-card>
+          <ion-card-title> Waiting for 1 more player </ion-card-title>
+          <h4 v-html="findMatchInfo() "></h4>
+            <ion-progress-bar type="indeterminate"></ion-progress-bar>
+        </ion-card>
       </div> 
     </div>
-    <div v-else>**
-      <h2> No player detected</h2>
-      <h2> Click here to go back to the lobby </h2>
-      <router-link to="/gamerooms" id="component-button">MultiPlayer</router-link>
-    </div>
+    <ion-card v-else>
+      <ion-card-title> No player detected</ion-card-title>
+      <ion-card-subtitle> Click here to go back to the lobby </ion-card-subtitle>
+      <router-link to="/gamerooms" id="component-button">Lobby</router-link>
+    </ion-card>
   </div>
 </template>
 
 <script>
 import GameBoard from "./GameBoard";
 import WordBoard from "./WordBoard";
-import LoadingIconMultiPlayer from "../assets/LoadingIconMultiPlayer";
 import InformationBoard from "./InformationBoard";
 import GoldMedal from "../assets/gold-medal.png";
 import SilverMedal from "../assets/silver-medal.png";
@@ -46,8 +48,7 @@ export default {
   components: {
     GameBoard,
     WordBoard,
-    InformationBoard,
-    LoadingIconMultiPlayer
+    InformationBoard
   },
     data() {
     return {
@@ -233,11 +234,38 @@ export default {
 };
 </script>
 
-<style>
-* {
-  box-sizing: border-box;
+<style lang="scss">
+.multiPlayerContainer{
+  position: absolute;
+  width: 100vw;
+  flex-flow: column wrap;
+  align-content: center;
+  justify-content: center;
+  .gameContainer{
+    position: absolute;
+    display: flex;
+    width: 100vw;
+    flex-flow: row wrap;
+    align-content: center;
+    justify-content: center;
+
+    ion-card {
+      max-width: 400px;
+      width: 98vw;
+      display: inline-block;
+    }
+  }
+  ion-card {
+    max-width: 400px;
+    width: 98vw;
+    display: inline-block;
+  }
 }
-#app {
+
+/* * {
+  box-sizing: border-box;
+} */
+/* #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -254,5 +282,5 @@ export default {
   content: "";
   display: table;
   clear: both;
-}
+} */
 </style>

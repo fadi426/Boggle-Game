@@ -8,31 +8,27 @@
         </ion-card-content>
       </ion-card>
  
-
       <div v-for="room in received_messages"
         :key="room.uuid"
       >
       <ion-card class="gameroom"
-        :style=" {backgroundColor : room.players.length > 1  ? '#00A591' : '#FF6F61'}"
+        :style=" {backgroundColor : room.players.length > 1  ? '#FF6F61' : '#00A591'}"
       >
        <ion-card-content>
-            <h4> {{ room.name }} </h4>
+            <ion-card-title> {{ room.name }} </ion-card-title>
             <div>
-              <h5 v-if="room.players[0]"> 
-                {{room.players[0].name}} </h5> 
-              <h5 v-if="room.players[1]"> 
+              <ion-card-subtitle v-if="room.players[0]"> 
+                {{room.players[0].name}} </ion-card-subtitle> 
+              <ion-card-subtitle v-if="room.players[1]"> 
                   {{room.players[1].name}} 
-              </h5>
-              <h4> 2 / {{room.players.length}}</h4>
+              </ion-card-subtitle>
+              <ion-card-subtitle> 2 / {{room.players.length}}</ion-card-subtitle>
             </div>
-              <!-- <div class="joinButton" v-if="room.players.length < 2 ">
-                  <AddPlayerToRoom v-bind:gameRoomId="room.uuid"/>
-              </div> -->
-              <ion-button color="primary" v-if="room.players.length > 2 " expand="full">Join
-                  <AddPlayerToRoom v-bind:gameRoomId="room.uuid"/>
-              </ion-button>
-              <ion-button color="danger" v-else expand="full">Join
-              </ion-button>
+            <div class="joinContainer" v-if="room.players.length < 2 ">
+              <ion-card>
+                <AddPlayerToRoom v-bind:gameRoomId="room.uuid"/>
+              </ion-card>
+            </div>
         </ion-card-content>
       </ion-card>
       </div>
@@ -98,30 +94,49 @@ export default {
 
 <style lang="scss">
 .gameRoomsContainer{
+  width: 100%;
+  margin: 0 auto;
+  max-width: 400px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
 
-  position: absolute;
-  display: flex;
-  width: 100vw;
-  flex-flow: row wrap;
-  align-content: center;
-  justify-content: center;
-
-  #gameInfo {
+  .gameInfo {
     max-width: 400px;
     width: 98vw;
     display: inline-block;
     }
-  #gameroom{
-      position: absolute;
-    display: flex;
-    width: 300px;
-    flex-flow: row wrap;
-    align-content: center;
-    justify-content: center;
+  .gameroom{
     max-width: 400px;
+    width: 98vw;
+    display: inline-block;
+    ion-card-title{
+      color: white;
+    }
+    ion-card-subtitle{
+      color: white;
+    }
+    .joinContainer{
+      display: flex;
+      justify-content: center;
+      width: 50%;
+      margin: 0 auto;
+      ion-card {
+        width: 98vw;
+        display: inline-block;
+        background-color: white;
+      }
+    }
+  }
+  ion-card {
+    max-width: 400px;
+    width: 98vw;
     display: inline-block;
   }
-
+  ion-button{
+    width: 50%;
+  }
   // #room{
   //   background-color: #FF6F61;
   //   border: none;
