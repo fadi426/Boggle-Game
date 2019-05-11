@@ -25,41 +25,11 @@ public class BoggleController {
     @Autowired
     private GameRoomService gameRoomService;
 
-//    @CrossOrigin(origins = "http://localhost:8081")
-//    @RequestMapping("/words")
-//    public List<Word> getAllArticles(){
-//        return wordService.getAllWords();
-//    }
-
-//    @CrossOrigin(origins = "http://localhost:8081")
-//    @RequestMapping("/word/{word}")
-//    public Word getWord(@PathVariable String word){
-//        return wordService.getWord(word);
-//    }
-
     @CrossOrigin(origins = "http://localhost:8081")
     @RequestMapping(method = RequestMethod.POST, value = "/words")
-    public String addWords(@RequestBody Word word){
-        System.out.println(word.getWord());
+    public Word checkWord(@RequestBody Word word){
+        System.out.println(word);
         return wordService.checkWord(word);
-    }
-
-//    @CrossOrigin(origins = "http://localhost:8081")
-//    @RequestMapping(method = RequestMethod.POST, value = "test1")
-//    public void test1(@RequestBody ValidWord word){
-//        wordService.addValidWord(word);
-//    }
-
-//    @CrossOrigin(origins = "http://localhost:8081")
-//    @RequestMapping("/test1")
-//    public List<ValidWord> getAllValidWords(){
-//        return wordService.getAllValidWords();
-//    }
-
-    @CrossOrigin(origins = "http://localhost:8081")
-    @RequestMapping("/players")
-    public List<Player> getPlayers(){
-        return playerService.getAllPlayers();
     }
 
     @CrossOrigin(origins = "http://localhost:8081")
@@ -67,12 +37,6 @@ public class BoggleController {
     public void addPlayers(@RequestBody Player player){
         //System.out.println(player.getName());
          playerService.addPlayer(player);
-    }
-
-    @CrossOrigin(origins = "http://localhost:8081")
-    @RequestMapping("/gamerooms")
-    public List<GameRoom> getGameRooms(){
-        return gameRoomService.getAllGameRoom();
     }
 
     @CrossOrigin(origins = "http://localhost:8081")
@@ -100,14 +64,12 @@ public class BoggleController {
     @MessageMapping("/hello")
     @SendTo("/topic/gamerooms")
     public void showGameRooms(String message) throws Exception {
-        Thread.sleep(500); // simulated delay
+        Thread.sleep(500);
         //System.out.println(message);
         ObjectMapper mapper = new ObjectMapper()
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         PlayerToRoom playerToRoom = mapper.readValue(message, PlayerToRoom.class);
         gameRoomService.increasePlayerGameScore(playerToRoom.getGameRoomId(), playerToRoom.getPlayers());
-
         //System.out.println(message);
     }
-
 }
