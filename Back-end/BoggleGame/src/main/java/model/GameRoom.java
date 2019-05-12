@@ -8,7 +8,7 @@ public class GameRoom {
     private String uuid;
     private String name;
     private List<Player> players;
-    private List<String> letters;
+    private List<Character> letters;
 
     public GameRoom(){
 
@@ -33,11 +33,11 @@ public class GameRoom {
         return players;
     }
 
-    public List<String> getLetters() {
+    public List<Character> getLetters() {
         return letters;
     }
 
-    public void setLetters(List<String> letters) {
+    public void setLetters(List<Character> letters) {
         this.letters = letters;
     }
 }

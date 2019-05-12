@@ -23,7 +23,7 @@ export default {
                 return "Invalid Move!";
     },
         detectShortWord() {
-            if(this.getWord.word.length < 3){
+            if(this.getWord.word.length > 1 && this.getWord.word.length < 3){
                 return "Word is too short";
             }
         }

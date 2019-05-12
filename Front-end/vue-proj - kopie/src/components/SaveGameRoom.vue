@@ -19,7 +19,8 @@ export default {
 		return{
             name: "",
             uuid: "",
-            playerArray: []
+            playerArray: [],
+            letterList: []
         };
     },
     computed: {
@@ -51,7 +52,7 @@ export default {
                         "name": this.getPlayer.name,
                         "score": 0
                     }],
-                    "letters": this.letters(),
+                    "letters": this.letterList,
                 })
                 .then((response) => {
                     if (response)
@@ -63,39 +64,18 @@ export default {
             });
         },
         letters() {
-            let alphabet = [
-                "a",
-                "b",
-                "c",
-                "d",
-                "e",
-                "f",
-                "g",
-                "h",
-                "i",
-                "j",
-                "k",
-                "l",
-                "m",
-                "n",
-                "o",
-                "p",
-                "q",
-                "r",
-                "s",
-                "t",
-                "u",
-                "v",
-                "w",
-                "x",
-                "y",
-                "z"
-            ];
-            let letters = [];
-            for (let i = 0; i < 25; i++) {
-                letters.push(alphabet[_.random(alphabet.length - 1)]);
-            }
-            return letters;
+            return new Promise((resolve) => {
+                axios.get('http://localhost:8080/board')
+                .then((response) => {
+                    if (response){
+                        console.log(response.data);
+                        this.letterList = response.data;
+                    }
+                    else
+                    console.log("failed to make gameBoard");
+                    resolve();
+                });
+            });
         },
     },
     beforeRouteLeave (to, from, next) {
@@ -105,7 +85,10 @@ export default {
         } else {
             next(false)
         }
-    }
+    },
+    mounted() {
+    this.letters();
+  }
 }
 </script>
 

@@ -12,6 +12,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 @RestController
@@ -41,6 +42,13 @@ public class BoggleController {
     }
 
     @CrossOrigin(origins = "http://localhost:8081")
+    @RequestMapping(method = RequestMethod.GET, value = "/board")
+    public ArrayList<Character> checkWord(){
+        System.out.println("Get Board");
+        return wordService.makeBoard();
+    }
+
+    @CrossOrigin(origins = "http://localhost:8081")
     @RequestMapping(method = RequestMethod.POST, value = "/gamerooms")
     public void addGameRooms(@RequestBody GameRoom gameRoom){
         //System.out.println(gameRoom.getName());
@@ -60,18 +68,6 @@ public class BoggleController {
         gameRoomService.removePlayerToGame(playerToRoom.getGameRoomId(), playerToRoom.getPlayers());
         //System.out.println("removed!");
     }
-//    @CrossOrigin(origins = "http://localhost:8081")
-//    @MessageMapping("/hello")
-//    @SendTo("/topic/gamerooms")
-//    public void showGameRooms(String message) throws Exception {
-//        Thread.sleep(500);
-//        //System.out.println(message);
-//        ObjectMapper mapper = new ObjectMapper()
-//                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-//        PlayerToRoom playerToRoom = mapper.readValue(message, PlayerToRoom.class);
-//        //gameRoomService.changePlayerGameScore(playerToRoom.getGameRoomId(), playerToRoom.getPlayers());
-//        //System.out.println(message);
-//    }
 
     @CrossOrigin(origins = "http://localhost:8081")
     @MessageMapping("/topic/greetings/{roomId}")

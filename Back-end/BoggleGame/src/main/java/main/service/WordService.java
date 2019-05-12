@@ -1,5 +1,6 @@
 package main.service;
 
+import main.helper.BoardCreator;
 import main.helper.DictonaryChecker;
 import main.helper.ValidWordJsonBuilder;
 import model.Word;
@@ -11,6 +12,7 @@ import java.util.Arrays;
 
 @Service
 public class WordService {
+    BoardCreator boardCreator = new BoardCreator();
     ArrayList<Integer> wordLength = new ArrayList<Integer>(Arrays.asList(0, 3, 4, 5, 6, 7,8));
     ArrayList<Integer> scorePoints = new ArrayList<Integer>(Arrays.asList(0, 1, 1, 2, 3, 5, 11));
     public Word checkWord(Word word) {
@@ -35,6 +37,10 @@ public class WordService {
         String ValidityOutcomeJson = ValidWordJsonBuilder.ObjectToJson(validWord);
         System.out.println(ValidityOutcomeJson);
         return (validWord);
+    }
+
+    public ArrayList<Character> makeBoard() {
+        return boardCreator.getRandomDiceList();
     }
 
     public int rateWord(String word){

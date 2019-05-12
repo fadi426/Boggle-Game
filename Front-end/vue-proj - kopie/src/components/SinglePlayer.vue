@@ -24,6 +24,7 @@ import InformationBoard from "./InformationBoard";
 import { mapGetters, mapState } from "vuex";
 import _ from "underscore";
 import Medal from "../assets/gold-medal.png";
+import axios from "axios";
 
 export default {
   name: "SinglePlayer",
@@ -34,7 +35,7 @@ export default {
   },
   data() {
     return {
-      letterList: this.letters()
+      letterList: []
     };
   },
   computed: {
@@ -64,39 +65,18 @@ export default {
       }
     },
     letters() {
-      let alphabet = [
-        "a",
-        "b",
-        "c",
-        "d",
-        "e",
-        "f",
-        "g",
-        "h",
-        "i",
-        "j",
-        "k",
-        "l",
-        "m",
-        "n",
-        "o",
-        "p",
-        "q",
-        "r",
-        "s",
-        "t",
-        "u",
-        "v",
-        "w",
-        "x",
-        "y",
-        "z"
-      ];
-      let letters = [];
-      for (let i = 0; i < 25; i++) {
-        letters.push(alphabet[_.random(alphabet.length - 1)]);
-      }
-      return letters;
+      return new Promise((resolve) => {
+          axios.get('http://localhost:8080/board')
+          .then((response) => {
+              if (response){
+                  console.log(response.data);
+                  this.letterList = response.data;
+              }
+              else
+              console.log("failed to make gameBoard");
+              resolve();
+          });
+      });
     },
     resetGame() {
       this.$store.commit("resetGame");
@@ -104,6 +84,7 @@ export default {
   },
   mounted() {
     this.resetGame();
+    this.letters();
   }
 };
 </script>
