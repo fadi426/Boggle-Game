@@ -2,7 +2,6 @@ C:\Users\Fadi\Documents\GitHub\Boggle-Game\Back-end\BoggleGame\src\main\java\mai
 C:\Users\Fadi\Documents\GitHub\Boggle-Game\Back-end\BoggleGame\src\main\java\model\Player.java
 C:\Users\Fadi\Documents\GitHub\Boggle-Game\Back-end\BoggleGame\src\main\java\main\WebSocketConfig.java
 C:\Users\Fadi\Documents\GitHub\Boggle-Game\Back-end\BoggleGame\src\main\java\main\SchedulerController.java
-C:\Users\Fadi\Documents\GitHub\Boggle-Game\Back-end\BoggleGame\src\main\java\main\BoggleService.java
 C:\Users\Fadi\Documents\GitHub\Boggle-Game\Back-end\BoggleGame\src\main\java\main\service\WordService.java
 C:\Users\Fadi\Documents\GitHub\Boggle-Game\Back-end\BoggleGame\src\main\java\model\Word.java
 C:\Users\Fadi\Documents\GitHub\Boggle-Game\Back-end\BoggleGame\src\main\java\main\helper\ValidWordJsonBuilder.java
@@ -12,4 +11,3 @@ C:\Users\Fadi\Documents\GitHub\Boggle-Game\Back-end\BoggleGame\src\main\java\mod
 C:\Users\Fadi\Documents\GitHub\Boggle-Game\Back-end\BoggleGame\src\main\java\main\BoggleController.java
 C:\Users\Fadi\Documents\GitHub\Boggle-Game\Back-end\BoggleGame\src\main\java\main\helper\DictonaryChecker.java
 C:\Users\Fadi\Documents\GitHub\Boggle-Game\Back-end\BoggleGame\src\main\java\main\service\GameRoomService.java
-C:\Users\Fadi\Documents\GitHub\Boggle-Game\Back-end\BoggleGame\src\main\java\main\helper\ExternalPostRequest.java

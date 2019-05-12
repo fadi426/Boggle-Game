@@ -56,8 +56,7 @@ export default {
     },
   },
   watch: {
-    gameOver: function() {
-
+      gameOver: function() {
       this.resetTimer();
     }
   },

@@ -33,7 +33,16 @@ public class GameRoomService {
                 .findFirst().get().getPlayers().add(player);
     }
 
-    public  void increasePlayerGameScore(String gameId, Player player){
+    public GameRoom findGameRoom(String gameId){
+        GameRoom gameRoom = null;
+        for (GameRoom room : gameRoomList){
+            if (gameId.equals(room.getUuid()))
+                gameRoom = room;
+        }
+        return gameRoom;
+    }
+
+    public  void changePlayerGameScore(String gameId, Player player){
         gameRoomList.stream()
                 .filter(room -> room.getUuid().equals(gameId))
                 .findFirst().get().getPlayers().stream()

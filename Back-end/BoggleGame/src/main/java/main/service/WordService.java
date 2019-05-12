@@ -11,8 +11,8 @@ import java.util.Arrays;
 
 @Service
 public class WordService {
-    ArrayList<Integer> wordLength = new ArrayList<Integer>(Arrays.asList(3, 4, 5, 6, 7,8));
-    ArrayList<Integer> scorePoints = new ArrayList<Integer>(Arrays.asList(1, 1, 2, 3, 5, 11));
+    ArrayList<Integer> wordLength = new ArrayList<Integer>(Arrays.asList(0, 3, 4, 5, 6, 7,8));
+    ArrayList<Integer> scorePoints = new ArrayList<Integer>(Arrays.asList(0, 1, 1, 2, 3, 5, 11));
     public Word checkWord(Word word) {
          try {
             boolean valid = DictonaryChecker.readInDictionaryWords(word.getWord());
@@ -40,7 +40,7 @@ public class WordService {
     public int rateWord(String word){
         int score = 0;
         for (int i = 0; i < wordLength.size(); i++){
-            if (word.length() >= wordLength.get(i) && word.length() < wordLength.get(i) + 1 && i != wordLength.size()-1){
+            if (word.length() >= wordLength.get(i) && word.length() < wordLength.get(i+1) && i != wordLength.size()-1){
                 score = scorePoints.get(i);
                 break;
             }

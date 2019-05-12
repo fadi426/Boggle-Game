@@ -51,7 +51,7 @@ export default {
 
       if (Word.word && 
         !this.getWordList.some(e => e.word === Word.word) &&
-        !this.getInvalidMove && Word.word.length > 1) {
+        !this.getInvalidMove && Word.word.length > 2) {
           this.$store.commit("addWord", Word);
           return new Promise((resolve) => {
             axios.post('http://localhost:8080/words', { 'word': Word.word, isValid: false, score: 0  })

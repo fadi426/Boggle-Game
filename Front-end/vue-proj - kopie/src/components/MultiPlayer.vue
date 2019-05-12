@@ -42,6 +42,7 @@ import { mapGetters, mapState } from "vuex";
 import SockJS from "sockjs-client";
 import Stomp from "webstomp-client";
 import axios from 'axios';
+import SinglePlayerVue from './SinglePlayer.vue';
 
 export default {
   name: "MultiPlayer",
@@ -70,15 +71,12 @@ export default {
     },
     methods: {
       checkValidSession() {
-        for (var i = 0; i < this.received_messages.length; i++) {
-          if(this.received_messages[i].uuid == this.$route.params.uuid){
-            for (var j = 0; j < this.received_messages[i].players.length; j++) {
-              if(this.received_messages[i].players[j].uuid == this.getPlayer.uuid){
+        let messageQueueLength = this.received_messages.length-1;
+            for (var i = 0; i < this.received_messages[messageQueueLength].players.length; i++) {
+              if(this.received_messages[messageQueueLength].players[i].uuid == this.getPlayer.uuid){
                 return true;
               }
             }
-          }
-        }
         return false;
       },
       showResultScreen() {
@@ -120,34 +118,38 @@ export default {
       },
       findMatchInfo(){
         let matchInfoString = "";
-        for (var i = 0; i < this.received_messages.length; i++) {
-          if(this.received_messages[i].uuid == this.$route.params.uuid){
-            this.letterList = this.received_messages[i].letters; 
-            for (var j = 0; j < this.received_messages[i].players.length; j++) {
-              if(this.received_messages[i].players[j].uuid != this.getPlayer.uuid){
-                this.opponent = this.received_messages[i].players[j];
-                return this.getPlayer.name + " : " + this.getPlayer.totalScore + '<br/>' + 
-                this.opponent.name + " : " + this.opponent.score;
-              }
+
+        let messageQueueLength = this.received_messages.length-1;
+        for (var i = 0; i < this.received_messages[messageQueueLength].players.length; i++) {
+
+          this.letterList = this.received_messages[messageQueueLength].letters; 
+          for (var j = 0; j < this.received_messages[messageQueueLength].players.length; j++) {
+            if(this.received_messages[messageQueueLength].players[j].uuid != this.getPlayer.uuid){
+              this.opponent = this.received_messages[messageQueueLength].players[j];
+              return this.getPlayer.name + " : " + this.getPlayer.totalScore + '<br/>' + 
+              this.opponent.name + " : " + this.opponent.score;
+            }
           }
         }
-      }
-      this.opponent = '';
-      this.resetGame();
-      return this.getPlayer.name + " : " + this.getPlayer.totalScore + '<br/>' + 
-         this.opponent.name + " : " + this.opponent.score;
+        this.opponent = '';
+        this.resetGame();
+        return this.getPlayer.name + " : " + this.getPlayer.totalScore + '<br/>' + 
+          this.opponent.name + " : " + this.opponent.score;
     },
-    send() {
+   send() {
+      console.log("Send message:" + this.send_message);
       if (this.stompClient && this.stompClient.connected) {
-        const msg = { 
-        	"gameRoomId": this.$route.params.uuid,
-	        "players": {
-		        "uuid": this.getPlayer.uuid,
-		        "name": this.getPlayer.name,
-		        "score": this.getPlayer.totalScore
-            }
-        }
-        this.stompClient.send("/app/hello", JSON.stringify(msg), {});
+        const msg = {
+          uuid: this.$route.params.uuid,
+          name: this.received_messages.name,
+          players: {
+		        uuid: this.getPlayer.uuid,
+		        name: this.getPlayer.name,
+            score: this.getPlayer.totalScore
+          },
+          letters: this.received_messages.letters
+        };
+        this.stompClient.send("/app/topic/greetings/" + this.$route.params.uuid, JSON.stringify(msg), {});
       }
     },
     connect() {
@@ -157,9 +159,12 @@ export default {
         {},
         frame => {
           this.connected = true;
-          this.stompClient.subscribe("/topic/gamerooms", tick => {
-            this.received_messages = (JSON.parse(tick.body));
+          console.log(frame);
+          this.stompClient.subscribe("/topic/greetings/" + this.$route.params.uuid, tick => {
+            console.log(tick);
+            this.received_messages.push(JSON.parse(tick.body));
           });
+          this.send();
         },
         error => {
           console.log(error);
@@ -177,23 +182,25 @@ export default {
       this.connected ? this.disconnect() : this.connect();
     },
     removePlayer() {
-    return new Promise((resolve) => {
-        axios.post('http://localhost:8080/gamerooms/removeplayer', {
-        	"gameRoomId": this.$route.params.uuid,
-	        "players": {
-		        "uuid": this.getPlayer.uuid,
-		        "name": this.getPlayer.name,
-            "score": this.getPlayer.totalScore
-          }
-        })
-        .then((response) => {
-            if (response)
-            console.log("player has been removed from the room");
-            else
-            console.log("player has not been removed from the room");
-            resolve()
+      if(this.getPlayer.name.length > 1){
+        return new Promise((resolve) => {
+            axios.post('http://localhost:8080/gamerooms/removeplayer', {
+              "gameRoomId": this.$route.params.uuid,
+              "players": {
+                "uuid": this.getPlayer.uuid,
+                "name": this.getPlayer.name,
+                "score": this.getPlayer.totalScore
+              }
+            })
+            .then((response) => {
+                if (response)
+                console.log("player has been removed from the room");
+                else
+                console.log("player has not been removed from the room");
+                resolve()
+            });
         });
-      });
+      }
     },
     resetGame() {
       this.$store.commit("resetGame");
@@ -261,26 +268,4 @@ export default {
     display: inline-block;
   }
 }
-
-/* * {
-  box-sizing: border-box;
-} */
-/* #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-.column {
-  float: left;
-  width: 50%;
-  padding: 10px;
-}
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-} */
 </style>

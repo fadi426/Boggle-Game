@@ -7,7 +7,6 @@ public class GameRoom {
 
     private String uuid;
     private String name;
-    private boolean started;
     private List<Player> players;
     private List<String> letters;
 
@@ -15,7 +14,7 @@ public class GameRoom {
 
     }
 
-    public GameRoom(String uuid, String name,List<Player> players, List<String> letters, boolean started){
+    public GameRoom(String uuid, String name,List<Player> players, List<String> letters){
         this.uuid = uuid;
         this.name = name;
         players = new ArrayList<Player>();
@@ -40,9 +39,5 @@ public class GameRoom {
 
     public void setLetters(List<String> letters) {
         this.letters = letters;
-    }
-
-    public boolean getStarted() {
-        return started;
     }
 }

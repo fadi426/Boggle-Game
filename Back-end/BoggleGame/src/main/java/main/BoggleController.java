@@ -1,5 +1,6 @@
 package main;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import main.service.GameRoomService;
@@ -11,7 +12,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Collection;
 
 @RestController
 public class BoggleController {
@@ -49,7 +50,7 @@ public class BoggleController {
     @CrossOrigin(origins = "http://localhost:8081")
     @RequestMapping(method = RequestMethod.POST, value = "/gamerooms/addplayer")
     public void addPlayerToGameRoom(@RequestBody PlayerToRoom playerToRoom){
-        //System.out.println(playerToRoom.getGameRoomId() + " " + playerToRoom.getPlayers().getName());
+        //System.out.println(playerToRoom.getGameRoomId() + " " + playerToRoom.getPlayer().getName());
         gameRoomService.addPlayerToGame(playerToRoom.getGameRoomId(), playerToRoom.getPlayers());
     }
 
@@ -59,17 +60,30 @@ public class BoggleController {
         gameRoomService.removePlayerToGame(playerToRoom.getGameRoomId(), playerToRoom.getPlayers());
         //System.out.println("removed!");
     }
+//    @CrossOrigin(origins = "http://localhost:8081")
+//    @MessageMapping("/hello")
+//    @SendTo("/topic/gamerooms")
+//    public void showGameRooms(String message) throws Exception {
+//        Thread.sleep(500);
+//        //System.out.println(message);
+//        ObjectMapper mapper = new ObjectMapper()
+//                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+//        PlayerToRoom playerToRoom = mapper.readValue(message, PlayerToRoom.class);
+//        //gameRoomService.changePlayerGameScore(playerToRoom.getGameRoomId(), playerToRoom.getPlayers());
+//        //System.out.println(message);
+//    }
 
     @CrossOrigin(origins = "http://localhost:8081")
-    @MessageMapping("/hello")
-    @SendTo("/topic/gamerooms")
-    public void showGameRooms(String message) throws Exception {
-        Thread.sleep(500);
-        //System.out.println(message);
-        ObjectMapper mapper = new ObjectMapper()
-                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        PlayerToRoom playerToRoom = mapper.readValue(message, PlayerToRoom.class);
-        gameRoomService.increasePlayerGameScore(playerToRoom.getGameRoomId(), playerToRoom.getPlayers());
-        //System.out.println(message);
+    @MessageMapping("/topic/greetings/{roomId}")
+    @SendTo("/topic/greetings/{roomId}")
+    public GameRoom showGameRoomInfo(String message) throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+        GameRoom gameRoom = mapper.readValue(message, GameRoom.class);
+
+        gameRoomService.changePlayerGameScore(gameRoom.getUuid(), gameRoom.getPlayers().get(0));
+        GameRoom roomInfo = gameRoomService.findGameRoom(gameRoom.getUuid());
+
+        return roomInfo;
     }
 }
