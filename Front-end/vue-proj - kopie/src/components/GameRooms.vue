@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     connect() {
-      this.socket = new SockJS("http://192.168.137.1:8080/gs-guide-websocket");
+      this.socket = new SockJS("http://192.168.0.11:8080/gs-guide-websocket");
       this.stompClient = Stomp.over(this.socket);
       this.stompClient.connect(
         {},

@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { stat } from "fs";
 
 Vue.use(Vuex);
 
@@ -18,7 +17,6 @@ export default new Vuex.Store({
       totalScore: 0,
     },
     gameOver: false,
-    capturing: false,
     wordList: [],
     invalidMove: false
   },
@@ -31,9 +29,6 @@ export default new Vuex.Store({
     },
     getInvalidMove: state => {
       return state.invalidMove;
-    },
-    getCapturing: state => {
-      return state.capturing;
     },
     getGameOver: state => {
       return state.gameOver;
@@ -77,40 +72,30 @@ export default new Vuex.Store({
       };
       state.Player.totalScore = 0;
       state.gameOver = false;
-      state.capturing = false;
       state.wordList = [];
       state.invalidMove = false;
     },
     adjustInvalidMove(state, payload) {
       state.invalidMove = payload;
-    },
-    startCapturing(state) {
-      state.capturing = true;
-    },
-    stopCapturing(state) {
-      state.capturing = false;
+
+      if(payload){
+        state.Word = {
+          word: "",
+          score: 0,
+          letterIndexList: [],
+          isValid: state.isValid,
+        };
+      }
     },
     addScorePoints(state, payload){
-      let word = state.wordList.find((w) => {
-        return w == payload.word;
-      })
-      if (!word) return;
+      state.wordList.forEach(w => {
+        if(w == payload.word)
+          w.score += payload.score;
+      });
       state.Player.totalScore += payload.score;
     },
     stateGameOver(state) {
       state.gameOver = true;
     }
   },
-  actions: {
-    startCapturing({
-      commit
-    }) {
-      commit("startCapturing");
-    },
-    stopCapturing({
-      commit
-    }) {
-      commit("stopCapturing");
-    }
-  }
 });

@@ -12,16 +12,15 @@
                 <td v-if="Word.isValid == true">{{ Word.score }}</td>
                 <td v-else> 0 </td>
                 <td > 
-                    <img
-                        style="width:30px;height:30px;"
-                        v-if="Word.isValid == true"
-                        src="@/assets/ok.png"
-                    />
-                    <img
-                    style="width:30px;height:30px;"
-                        v-if="Word.isValid == false"
-                        src="@/assets/star.png"
-                    />
+                  <ion-icon name="checkmark-circle-outline" 
+                    style="zoom: 1.5; color: #4fc3a1;"
+                    v-if="Word.isValid == true">
+                  </ion-icon>
+                  <ion-icon name="close-circle-outline"
+                    style="zoom: 1.5; color: #c34f71;"
+                    v-if="Word.isValid == false"
+                  >
+                  </ion-icon>
                     <LoadingIcon
                         v-if="Word.isValid == undefined"
                     />
@@ -33,7 +32,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
+import { mapGetters } from "vuex";
 import LoadingIcon from "../assets/LoadingIcon";
 export default {
   name: "WordBoard",
@@ -49,6 +48,9 @@ export default {
 
 <style lang="scss">
 .wordBoardContainer {
+    margin-top: 20px; 
+    height: 350px;; 
+    overflow: auto;
   .table {
     border-radius: 5px;
     font-size: 12px;
@@ -59,7 +61,6 @@ export default {
     white-space: nowrap;
     background-color: white;
     display: table;
-    height: 50px;
     width: 100%;
     table-layout: fixed;
   }

@@ -21,8 +21,7 @@
 import GameBoard from "./GameBoard";
 import WordBoard from "./WordBoard";
 import InformationBoard from "./InformationBoard";
-import { mapGetters, mapState } from "vuex";
-import _ from "underscore";
+import { mapGetters } from "vuex";
 import Medal from "../assets/gold-medal.png";
 import axios from "axios";
 
@@ -40,7 +39,6 @@ export default {
   },
   computed: {
     ...mapGetters(["getPlayer", "getGameOver"]),
-    ...mapState(["capturing"]),
     gameOver() {
       return this.getGameOver;
     }

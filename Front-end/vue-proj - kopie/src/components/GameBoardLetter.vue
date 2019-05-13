@@ -1,10 +1,9 @@
 <template>
   <div
     class="gameboard-letter" :style="changePressedLetterStyle"
-    v-on="capturing ? { mouseover: () => selectLetters() } : {} "
+    v-on:click="selectLetters"
   >
     <ion-label>{{ letter }}</ion-label>
-
   </div>
 </template>
 
@@ -21,21 +20,34 @@ export default {
     selectLetters() {
       var payload = { letter: this.letter, letterIndex: this.letterIndex };
       var lastMoveIndex = this.getWord.letterIndexList[this.getWord.letterIndexList.length - 1];
-
+      
+      if(this.getInvalidMove && this.getWord.letterIndexList.length == 0){
+        this.$store.commit("adjustInvalidMove", false);
+      }
+      if (
+        this.getWord.letterIndexList.includes(this.letterIndex) &&
+        !this.getInvalidMove && this.letterIndex == lastMoveIndex
+      ) {
+        let indexOfLetter = this.getWord.letterIndexList.length - 1;
+        this.silceWord(indexOfLetter);
+        return;
+      }
       if (
         this.getWord.letterIndexList.includes(this.letterIndex) &&
         !this.getInvalidMove && this.letterIndex != lastMoveIndex
       ) {
         let indexOfLetter = this.getWord.letterIndexList.indexOf(this.letterIndex) +1;
-
-        let letterIndexList = this.getWord.letterIndexList.slice(0,
-          this.getWord.letterIndexList.indexOf(indexOfLetter));
-
-        let wordList = this.getWord.word.slice(0, indexOfLetter);
-
-        this.$store.commit("removeLetter", { LetterIndexList: letterIndexList, WordList: wordList });
+        this.silceWord(indexOfLetter);
+        return;
       }
-
+      this.checkMoveValidity(lastMoveIndex, payload);
+    },
+    silceWord(indexOfLetter){
+      let letterIndexList = this.getWord.letterIndexList.slice(0, indexOfLetter);
+      let wordList = this.getWord.word.slice(0, indexOfLetter);
+      this.$store.commit("removeLetter", { LetterIndexList: letterIndexList, WordList: wordList });
+    },
+    checkMoveValidity(lastMoveIndex, payload){
       if (
         !this.getWord.letterIndexList.includes(this.letterIndex) &&
         !this.getInvalidMove
@@ -56,13 +68,10 @@ export default {
         this.$store.commit("adjustInvalidMove", true);
         }
       } 
-    },
+    }
   },
   computed: {
-    ...mapGetters(["getWord", "getInvalidMove", "getCapturing"]),
-    capturing() {
-      return this.$store.state.capturing;
-    },
+    ...mapGetters(["getWord", "getInvalidMove"]),
     changePressedLetterStyle(){
       return {
         backgroundColor : this.getWord.letterIndexList.includes(this.letterIndex)  ? '#3880FF' : '#00A591'

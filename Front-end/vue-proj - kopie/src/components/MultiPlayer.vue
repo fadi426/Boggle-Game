@@ -36,13 +36,13 @@
 import GameBoard from "./GameBoard";
 import WordBoard from "./WordBoard";
 import InformationBoard from "./InformationBoard";
+import SinglePlayerVue from './SinglePlayer.vue';
 import GoldMedal from "../assets/gold-medal.png";
 import SilverMedal from "../assets/silver-medal.png";
 import { mapGetters, mapState } from "vuex";
 import SockJS from "sockjs-client";
 import Stomp from "webstomp-client";
 import axios from 'axios';
-import SinglePlayerVue from './SinglePlayer.vue';
 
 export default {
   name: "MultiPlayer",
@@ -153,7 +153,7 @@ export default {
       }
     },
     connect() {
-      this.socket = new SockJS("http://192.168.137.1:8080/gs-guide-websocket");
+      this.socket = new SockJS("http://192.168.0.11:8080/gs-guide-websocket");
       this.stompClient = Stomp.over(this.socket);
       this.stompClient.connect(
         {},
@@ -184,7 +184,7 @@ export default {
     removePlayer() {
       if(this.getPlayer.name.length > 1){
         return new Promise((resolve) => {
-            axios.post('http://192.168.137.1:8080/gamerooms/removeplayer', {
+            axios.post('http://192.168.0.11:8080/gamerooms/removeplayer', {
               "gameRoomId": this.$route.params.uuid,
               "players": {
                 "uuid": this.getPlayer.uuid,

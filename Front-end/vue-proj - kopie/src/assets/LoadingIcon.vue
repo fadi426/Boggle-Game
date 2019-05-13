@@ -42,12 +42,12 @@ export default {
 }
 .lds-dual-ring div {
   position: absolute;
-  width: 20px;
-  height: 20px;
-  left: 10px;
+  width: 15px;
+  height: 15px;
+  left: 45px;
   border-radius: 50%;
   border: 2px solid #000;
-  border-color: #F29891 transparent #F29891 transparent;
+  border-color: #3880FF transparent #3880FF transparent;
   -webkit-animation: lds-dual-ring 1s linear infinite;
   animation: lds-dual-ring 1s linear infinite;
 }

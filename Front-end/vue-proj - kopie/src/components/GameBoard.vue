@@ -1,19 +1,18 @@
 <template>
-  <div class="flex-container">
-    <div class="row">
-      <div
-        class="gameboard"
-        @mousedown="startCapturing"
-        @mouseup="stopCapturing"
-      >
-        <GameBoardLetter 
-          v-for="(letter, index) in letterArray"
-          :key="index"
-          :letter="letter"
-          :letterIndex="index"
-        />
+  <div class="gameBoardContainer">
+    <div class="flex-container">
+      <div class="row">
+        <div class="gameboard">
+          <GameBoardLetter 
+            v-for="(letter, index) in letterArray"
+            :key="index"
+            :letter="letter"
+            :letterIndex="index"
+          />
+        </div>
       </div>
     </div>
+    <ion-button v-on:click="sendWord"> Send </ion-button>
   </div>
 </template>
 
@@ -33,20 +32,12 @@ export default {
     ...mapGetters([
         "getWord",
         "getWordList",
-        "getInvalidMove",
-        "getGameOver"
+        "getInvalidMove"
     ])
   },
   methods: {
-    startCapturing() {
-      if(!this.getGameOver)
-      this.$store.dispatch("startCapturing");
-    },
-    stopCapturing() {
-      
-      this.$store.dispatch("stopCapturing");
+    sendWord() {
       var Word = this.getWord;
-      this.$store.commit("adjustInvalidMove", false);
       this.$store.commit("resetWord");
 
       if (Word.word && 
@@ -54,7 +45,7 @@ export default {
         !this.getInvalidMove && Word.word.length > 2) {
           this.$store.commit("addWord", Word);
           return new Promise((resolve) => {
-            axios.post('http://192.168.137.1:8080/words', { 'word': Word.word, isValid: false, score: 0  })
+            axios.post('http://192.168.0.11:8080/words', { 'word': Word.word, isValid: false, score: 0  })
             .then((response) => {
               if (response.data.isValid == true){
                 console.log(response.data);
@@ -73,34 +64,32 @@ export default {
 };
 </script>
 
-<style>
-.gameboard {
+<style lang="scss">
+.gameBoardContainer{
+
+  .flex-container {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .gameboard {
   display: flex;
   flex-wrap: wrap;
   list-style-type: none;
   width: calc(11em + 14px);
   padding: 0;
   font-size: 25px;
-}
-.letter {
-  border: 1px solid;
-  width: 2em;
-  height: 2em;
-  display: flex;
-  justify-content: center;
-  line-height: 2em;
-}
-
-.flex-container {
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  }
+  .letter {
+    border: 1px solid;
+    width: 2em;
+    height: 2em;
+    display: flex;
+    justify-content: center;
+    line-height: 2em;
+  }
 }
 </style>
