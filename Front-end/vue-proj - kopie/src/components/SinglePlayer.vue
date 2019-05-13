@@ -91,6 +91,7 @@ export default {
 
 <style lang="scss">
 .singlePlayerContainer {
+  padding-top: 8vw;
   position: absolute;
   display: flex;
   width: 100vw;

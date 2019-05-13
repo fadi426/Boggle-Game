@@ -243,6 +243,7 @@ export default {
 
 <style lang="scss">
 .multiPlayerContainer{
+  padding-top: 8vw;
   position: absolute;
   width: 100vw;
   flex-flow: column wrap;
