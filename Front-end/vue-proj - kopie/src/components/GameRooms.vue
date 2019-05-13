@@ -94,7 +94,7 @@ export default {
 
 <style lang="scss">
 .gameRoomsContainer{
-  padding-top: 8vw;
+  padding-top: 15%;
   width: 100%;
   margin: 0 auto;
   max-width: 400px;

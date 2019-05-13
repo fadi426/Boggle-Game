@@ -66,7 +66,7 @@ export default {
     },
     letters() {
       return new Promise((resolve) => {
-          axios.get('http://192.168.137.1:8080/board')
+          axios.get('http://192.168.0.11:8080/board')
           .then((response) => {
               if (response){
                   console.log(response.data);
@@ -91,7 +91,7 @@ export default {
 
 <style lang="scss">
 .singlePlayerContainer {
-  padding-top: 8vw;
+  padding-top: 15%;
   position: absolute;
   display: flex;
   width: 100vw;

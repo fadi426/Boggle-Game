@@ -23,7 +23,7 @@ export default {
 
 <style lang="scss">
 .homeContainer {
-  padding-top: 8vw;
+  padding-top: 15%;
   position: absolute;
   width: 100vw;
   flex-flow: column wrap;
