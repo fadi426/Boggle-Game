@@ -4,6 +4,7 @@ main\helper\ValidWordJsonBuilder.class
 main\WebSocketConfig.class
 main\service\WordService.class
 main\service\GameRoomService.class
+main\helper\BoardCreator.class
 main\SchedulerController.class
 model\Word.class
 main\MainController.class

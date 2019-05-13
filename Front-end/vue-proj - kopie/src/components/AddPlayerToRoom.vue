@@ -25,7 +25,7 @@ export default {
 	methods: {
         PostPlayerToGame() {
             return new Promise((resolve) => {
-                axios.post('http://localhost:8080/gamerooms/addplayer', {
+                axios.post('http://192.168.137.1:8080/gamerooms/addplayer', {
 	                "gameRoomId": this.gameRoomId,
 	                "players": {
 		                "uuid": this.getPlayer.uuid,

@@ -39,7 +39,7 @@ export default {
           totalScore: 0
         };
         axios
-          .post("http://localhost:8080/players", {
+          .post("http://192.168.137.1:8080/players", {
             uuid: payload.uuid,
             name: payload.name,
             score: payload.totalScore

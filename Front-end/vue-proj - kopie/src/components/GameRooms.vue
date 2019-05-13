@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     connect() {
-      this.socket = new SockJS("http://localhost:8080/gs-guide-websocket");
+      this.socket = new SockJS("http://192.168.137.1:8080/gs-guide-websocket");
       this.stompClient = Stomp.over(this.socket);
       this.stompClient.connect(
         {},
@@ -104,12 +104,12 @@ export default {
 
   .gameInfo {
     max-width: 400px;
-    width: 98vw;
+    width: 90vw;
     display: inline-block;
     }
   .gameroom{
     max-width: 400px;
-    width: 98vw;
+    width: 90vw;
     display: inline-block;
     ion-card-title{
       color: white;
@@ -131,27 +131,11 @@ export default {
   }
   ion-card {
     max-width: 400px;
-    width: 98vw;
     display: inline-block;
   }
   ion-button{
     width: 50%;
   }
-  // #room{
-  //   background-color: #FF6F61;
-  //   border: none;
-  //   color: white;
-  //   padding: 16px 32px;
-  //   text-align: center;
-  //   font-size: 16px;
-  //   margin: 8px 2px;
-  //   opacity: 0.7;
-  //   transition: 0.3s;
-  //   display: inline-block;
-  //   text-decoration: none;
-  //   width: 20%
-  // }
-
 }
 
 

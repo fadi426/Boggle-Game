@@ -153,7 +153,7 @@ export default {
       }
     },
     connect() {
-      this.socket = new SockJS("http://localhost:8080/gs-guide-websocket");
+      this.socket = new SockJS("http://192.168.137.1:8080/gs-guide-websocket");
       this.stompClient = Stomp.over(this.socket);
       this.stompClient.connect(
         {},
@@ -184,7 +184,7 @@ export default {
     removePlayer() {
       if(this.getPlayer.name.length > 1){
         return new Promise((resolve) => {
-            axios.post('http://localhost:8080/gamerooms/removeplayer', {
+            axios.post('http://192.168.137.1:8080/gamerooms/removeplayer', {
               "gameRoomId": this.$route.params.uuid,
               "players": {
                 "uuid": this.getPlayer.uuid,
@@ -258,7 +258,7 @@ export default {
 
     ion-card {
       max-width: 400px;
-      width: 98vw;
+      width: 94vw;
       display: inline-block;
     }
   }

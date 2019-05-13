@@ -42,7 +42,7 @@ export default {
         PostPlayer() {
             return new Promise((resolve) => {
                this.playerArray.push(this.getPlayer);
-               axios.post('http://localhost:8080/gamerooms',
+               axios.post('http://192.168.137.1:8080/gamerooms',
                {
                     "uuid":  this.create_UUID(),
                     "name": this.name,
@@ -65,7 +65,7 @@ export default {
         },
         letters() {
             return new Promise((resolve) => {
-                axios.get('http://localhost:8080/board')
+                axios.get('http://192.168.137.1:8080/board')
                 .then((response) => {
                     if (response){
                         console.log(response.data);

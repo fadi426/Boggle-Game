@@ -27,49 +27,48 @@ public class BoggleController {
     @Autowired
     private GameRoomService gameRoomService;
 
-    @CrossOrigin(origins = "http://localhost:8081")
+    @CrossOrigin(origins = "*")
     @RequestMapping(method = RequestMethod.POST, value = "/words")
     public Word checkWord(@RequestBody Word word){
         System.out.println(word);
         return wordService.checkWord(word);
     }
 
-    @CrossOrigin(origins = "http://localhost:8081")
+    @CrossOrigin(origins = "*")
     @RequestMapping(method = RequestMethod.POST, value = "/players")
     public void addPlayers(@RequestBody Player player){
         //System.out.println(player.getName());
          playerService.addPlayer(player);
     }
 
-    @CrossOrigin(origins = "http://localhost:8081")
+    @CrossOrigin(origins = "*")
     @RequestMapping(method = RequestMethod.GET, value = "/board")
     public ArrayList<Character> checkWord(){
         System.out.println("Get Board");
         return wordService.makeBoard();
     }
 
-    @CrossOrigin(origins = "http://localhost:8081")
+    @CrossOrigin(origins = "*")
     @RequestMapping(method = RequestMethod.POST, value = "/gamerooms")
     public void addGameRooms(@RequestBody GameRoom gameRoom){
         //System.out.println(gameRoom.getName());
         gameRoomService.addGameRoom(gameRoom);
     }
 
-    @CrossOrigin(origins = "http://localhost:8081")
+    @CrossOrigin(origins = "*")
     @RequestMapping(method = RequestMethod.POST, value = "/gamerooms/addplayer")
     public void addPlayerToGameRoom(@RequestBody PlayerToRoom playerToRoom){
         //System.out.println(playerToRoom.getGameRoomId() + " " + playerToRoom.getPlayer().getName());
         gameRoomService.addPlayerToGame(playerToRoom.getGameRoomId(), playerToRoom.getPlayers());
     }
 
-    @CrossOrigin(origins = "http://localhost:8081")
+    @CrossOrigin(origins = "*")
     @RequestMapping(method = RequestMethod.POST, value = "/gamerooms/removeplayer")
     public void removePlayerFromGame(@RequestBody PlayerToRoom playerToRoom){
         gameRoomService.removePlayerToGame(playerToRoom.getGameRoomId(), playerToRoom.getPlayers());
         //System.out.println("removed!");
     }
 
-    @CrossOrigin(origins = "http://localhost:8081")
     @MessageMapping("/topic/greetings/{roomId}")
     @SendTo("/topic/greetings/{roomId}")
     public GameRoom showGameRoomInfo(String message) throws Exception {

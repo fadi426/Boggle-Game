@@ -8,7 +8,7 @@ export default new Vuex.Store({
   state: {
     Word: {
       word: "",
-      score: "",
+      score: 0,
       letterIndexList: [],
       isValid: undefined
     },
@@ -46,7 +46,6 @@ export default new Vuex.Store({
     addLetter(state, payload) {
       state.Word.word += payload.letter;
       state.Word.letterIndexList.push(payload.letterIndex);
-      state.Word.score = state.Word.word.length;
       state.Word.letterIndex = payload.letterIndex;
     },
     addWord(state, payload){
@@ -64,7 +63,7 @@ export default new Vuex.Store({
     resetWord(state){
       state.Word = {
         word: "",
-        score: "",
+        score: 0,
         letterIndexList: [],
         isValid: undefined,
       } 
@@ -72,7 +71,7 @@ export default new Vuex.Store({
     resetGame(state) {
       state.Word = {
         word: "",
-        score: "",
+        score: 0,
         letterIndexList: [],
         isValid: state.isValid,
       };
@@ -92,7 +91,11 @@ export default new Vuex.Store({
       state.capturing = false;
     },
     addScorePoints(state, payload){
-      state.Player.totalScore += payload;
+      let word = state.wordList.find((w) => {
+        return w == payload.word;
+      })
+      if (!word) return;
+      state.Player.totalScore += payload.score;
     },
     stateGameOver(state) {
       state.gameOver = true;

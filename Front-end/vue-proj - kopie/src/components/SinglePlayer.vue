@@ -66,7 +66,7 @@ export default {
     },
     letters() {
       return new Promise((resolve) => {
-          axios.get('http://localhost:8080/board')
+          axios.get('http://192.168.137.1:8080/board')
           .then((response) => {
               if (response){
                   console.log(response.data);
