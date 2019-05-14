@@ -38,6 +38,7 @@ public class BoardCreator {
         );
     }
     public ArrayList<Character> getRandomDiceList() {
+        // create a random letterList
         ArrayList<Character> dice = new ArrayList<>();
         Random rand = new Random();
         for (String die : diceList){

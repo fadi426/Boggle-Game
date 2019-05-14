@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './components/Home'
-import SinglePlayer from './components/SinglePlayer'
-import GameRooms from './components/GameRooms'
-import MultiPlayer from './components/MultiPlayer'
+import Home from './view/Home'
+import SinglePlayer from './view/SinglePlayer'
+import GameRooms from './view/GameRooms'
+import MultiPlayer from './view/MultiPlayer'
 
 Vue.use(Router)
 

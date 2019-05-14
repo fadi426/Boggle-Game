@@ -8,24 +8,29 @@
         </ion-card-content>
       </ion-card>
  
-      <div v-for="room in received_messages"
+      <div v-for="room in receivedMessages"
         :key="room.uuid"
       >
+      <!-- check if the room is full and change the color of the ion-card according to it -->
       <ion-card class="gameroom"
         :style=" {backgroundColor : room.players.length > 1  ? '#FF6F61' : '#00A591'}"
       >
        <ion-card-content>
             <ion-card-title> {{ room.name }} </ion-card-title>
             <div>
+              <!-- displays player 1 of the room -->
               <ion-card-subtitle v-if="room.players[0]"> 
                 {{room.players[0].name}} </ion-card-subtitle> 
+                <!-- display player 2 of the room -->
               <ion-card-subtitle v-if="room.players[1]"> 
                   {{room.players[1].name}} 
               </ion-card-subtitle>
+              <!-- show the population of the room -->
               <ion-card-subtitle> 2 / {{room.players.length}}</ion-card-subtitle>
             </div>
             <div class="joinContainer" v-if="room.players.length < 2 ">
               <ion-card>
+                <!-- add the player to the selected room -->
                 <AddPlayerToRoom v-bind:gameRoomId="room.uuid"/>
               </ion-card>
             </div>
@@ -38,31 +43,30 @@
 <script>
 import SockJS from "sockjs-client";
 import Stomp from "webstomp-client";
-import AddPlayerToRoom from "./AddPlayerToRoom";
-import SavePlayer from "./SavePlayer";
-import SaveGameRoom from "./SaveGameRoom";
+import AddPlayerToRoom from "../components/AddPlayerToRoom";
+import SavePlayer from "../components/SavePlayer";
+import SaveGameRoom from "../components/SaveGameRoom";
 export default {
   name: "GameRooms",
   components: { AddPlayerToRoom, SavePlayer, SaveGameRoom },
   data() {
     return {
-      received_messages: [],
-      received_scores: [],
-      send_message: null,
-      connected: false,
-      gameRoomName : ""
+      receivedMessages: [],
+      connected: false
     };
   },
   methods: {
     connect() {
-      this.socket = new SockJS("http://192.168.0.11:8080/gs-guide-websocket");
+      // establish the websocket connection
+      this.socket = new SockJS("http://192.168.1.110:8080/boggle-game");
       this.stompClient = Stomp.over(this.socket);
       this.stompClient.connect(
         {},
         frame => {
           this.connected = true;
+          // listen to incomming messages and push them to the receivedMessages list
           this.stompClient.subscribe("/topic/gamerooms", tick => {
-            this.received_messages = (JSON.parse(tick.body));
+            this.receivedMessages = (JSON.parse(tick.body));
           });
         },
         error => {
@@ -71,10 +75,8 @@ export default {
         }
       );
     },
-    tickleConnection() {
-      this.connected ? this.disconnect() : this.connect();
-    },
     disconnect() {
+      // break the websocket connection
       if (this.stompClient) {
         this.stompClient.disconnect();
       }
@@ -85,6 +87,7 @@ export default {
     this.connect();
   },
   beforeRouteLeave (to, from, next) {
+    // close the websocket connection before leaving the page
       console.log("connected has been closed");
       this.disconnect();
       next();

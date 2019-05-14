@@ -19,9 +19,10 @@ public class SchedulerController {
     @Autowired
     private GameRoomService gameRoomService;
 
-    @Scheduled(fixedRate = 1000)
+    // push messages to the broker on topic /topic/gamerooms to update the gamerooms in the front-end
+    @Scheduled(fixedRate = 2000)
     public void greeting() throws InterruptedException, JsonProcessingException {
-        Thread.sleep(1000); // simulated delay
+        Thread.sleep(2000); // simulated delay
         ObjectMapper mapper = new ObjectMapper();
         String jsonInString = mapper.writeValueAsString(gameRoomService.getAllGameRoom());
         gameRoomService.removeGameRoom();

@@ -1,10 +1,10 @@
 <template>
     <div>
-        <div class="playerForm" v-if="getPlayer.name" v-on:click="PostPlayerToGame">
+        <div class="playerForm" v-if="getPlayer.name" v-on:click="postPlayerToGame">
             <router-link :to="{ name: 'multiplayer', params: { uuid: gameRoomId }} ">Join Room</router-link>
         </div>
     </div>
-</template>
+</template>y
 
 <script>
 import { mapGetters } from "vuex";
@@ -14,7 +14,6 @@ export default {
     props: ["gameRoomId"],
 	data() {
 		return{
-            name: ""
         };
     },
     computed: {
@@ -23,9 +22,10 @@ export default {
         ]),
     },
 	methods: {
-        PostPlayerToGame() {
+        postPlayerToGame() {
+            // link the current player userUUID to the gameroomUUID in the API
             return new Promise((resolve) => {
-                axios.post('http://192.168.0.11:8080/gamerooms/addplayer', {
+                axios.post('http://192.168.1.110:8080/gamerooms/addplayer', {
 	                "gameRoomId": this.gameRoomId,
 	                "players": {
 		                "uuid": this.getPlayer.uuid,

@@ -11,27 +11,31 @@ export default {
   data() {
     return {
       time: "",
-      playtime_seconds: 180,
+      playtimeSeconds: 180,
     };
   },
   methods: {
-    Timer() {
+    timer() {
       let tick = () => {
-        var hours = Math.floor(this.playtime_seconds / 3600);
-        var minutes = Math.floor((this.playtime_seconds - (hours * 3600)) / 60);
-        var seconds = this.playtime_seconds - (hours * 3600) - (minutes * 60);
+        // calculate the time
+        var hours = Math.floor(this.playtimeSeconds / 3600);
+        var minutes = Math.floor((this.playtimeSeconds - (hours * 3600)) / 60);
+        var seconds = this.playtimeSeconds - (hours * 3600) - (minutes * 60);
 
         if (hours < 10) { hours = "0" + hours; }
         if (minutes < 10) { minutes = "0" + minutes; }
         if (seconds < 10) { seconds = "0" + seconds; }
+        // build the timer string
         this.time = minutes + ':' + seconds;
 
-        if (this.playtime_seconds <= 0) {
+        // set the stateGameOver on true to end the game once the timer reaches 0
+        if (this.playtimeSeconds <= 0) {
           clearInterval(timer);
           this.$store.commit("stateGameOver");
         }
 
-        this.playtime_seconds -= 1;
+        // countdown
+        this.playtimeSeconds -= 1;
       };
 
       let timer = setInterval(tick, 1000);
@@ -39,13 +43,13 @@ export default {
     },
     resetTimer() {
       if(this.time == "00:00"  && this.gameOver == false){
-        this.playtime_seconds = 180;
-        this.Timer();
+        this.playtimeSeconds = 180;
+        this.timer();
       }
     }
   },
   created() {
-    this.Timer();
+    this.timer();
   },
   computed: {
     ...mapGetters([
@@ -56,6 +60,7 @@ export default {
     },
   },
   watch: {
+      // check if the game
       gameOver: function() {
       this.resetTimer();
     }

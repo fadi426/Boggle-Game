@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import Slider from "./Slider";
+import Slider from "../components/Slider";
 export default {
   name: "home",
   components: { Slider },

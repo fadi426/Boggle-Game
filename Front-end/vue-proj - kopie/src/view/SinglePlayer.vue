@@ -18,9 +18,9 @@
 </template>
 
 <script>
-import GameBoard from "./GameBoard";
-import WordBoard from "./WordBoard";
-import InformationBoard from "./InformationBoard";
+import GameBoard from "../components/GameBoard";
+import WordBoard from "../components/WordBoard";
+import InformationBoard from "../components/InformationBoard";
 import { mapGetters } from "vuex";
 import Medal from "../assets/gold-medal.png";
 import axios from "axios";
@@ -50,6 +50,8 @@ export default {
   },
   methods: {
     showResultScreen() {
+      // shows the medal popup when gameOver is true by looking at the timer to reach 0 seconds
+      // and reset the game when the "play again" button is pressed
       if (this.getGameOver == true) {
         swal({
           title: "Time is up!",
@@ -63,11 +65,11 @@ export default {
       }
     },
     letters() {
+      // Get the dice configuration from the API to display it on the GameBoardLetters
       return new Promise((resolve) => {
-          axios.get('http://192.168.0.11:8080/board')
+          axios.get('http://192.168.1.110:8080/board')
           .then((response) => {
               if (response){
-                  console.log(response.data);
                   this.letterList = response.data;
               }
               else

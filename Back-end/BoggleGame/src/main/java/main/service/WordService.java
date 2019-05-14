@@ -15,6 +15,8 @@ public class WordService {
     BoardCreator boardCreator = new BoardCreator();
     ArrayList<Integer> wordLength = new ArrayList<Integer>(Arrays.asList(0, 3, 4, 5, 6, 7,8));
     ArrayList<Integer> scorePoints = new ArrayList<Integer>(Arrays.asList(0, 1, 1, 2, 3, 5, 11));
+
+    // check if the word exsists in the dictionary
     public Word checkWord(Word word) {
          try {
             boolean valid = DictonaryChecker.readInDictionaryWords(word.getWord());
@@ -25,6 +27,7 @@ public class WordService {
         return new Word("Undefined", false, 0);
     }
 
+    // send the outcome of the dictionary check
     public Word sendValidityOutcome(String word, boolean valid){
         Word validWord = new Word();
         validWord.setWord(word);
@@ -43,6 +46,7 @@ public class WordService {
         return boardCreator.getRandomDiceList();
     }
 
+    // rate the word by its length according to the boggle game rules
     public int rateWord(String word){
         int score = 0;
         for (int i = 0; i < wordLength.size(); i++){

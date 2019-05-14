@@ -37,7 +37,7 @@ public class BoggleController {
     @CrossOrigin(origins = "*")
     @RequestMapping(method = RequestMethod.POST, value = "/players")
     public void addPlayers(@RequestBody Player player){
-        //System.out.println(player.getName());
+        System.out.println(player.getName() + "has been added to the playerList");
          playerService.addPlayer(player);
     }
 
@@ -51,22 +51,22 @@ public class BoggleController {
     @CrossOrigin(origins = "*")
     @RequestMapping(method = RequestMethod.POST, value = "/gamerooms")
     public void addGameRooms(@RequestBody GameRoom gameRoom){
-        //System.out.println(gameRoom.getName());
+        System.out.println(gameRoom.getName() + "has been added to the gameRoomList");
         gameRoomService.addGameRoom(gameRoom);
     }
 
     @CrossOrigin(origins = "*")
     @RequestMapping(method = RequestMethod.POST, value = "/gamerooms/addplayer")
     public void addPlayerToGameRoom(@RequestBody PlayerToRoom playerToRoom){
-        //System.out.println(playerToRoom.getGameRoomId() + " " + playerToRoom.getPlayer().getName());
+        System.out.println("players have been added to room: " + playerToRoom.getGameRoomId());
         gameRoomService.addPlayerToGame(playerToRoom.getGameRoomId(), playerToRoom.getPlayers());
     }
 
     @CrossOrigin(origins = "*")
     @RequestMapping(method = RequestMethod.POST, value = "/gamerooms/removeplayer")
     public void removePlayerFromGame(@RequestBody PlayerToRoom playerToRoom){
+        System.out.println("player has been removed from room: " + playerToRoom.getGameRoomId());
         gameRoomService.removePlayerToGame(playerToRoom.getGameRoomId(), playerToRoom.getPlayers());
-        //System.out.println("removed!");
     }
 
     @MessageMapping("/topic/greetings/{roomId}")

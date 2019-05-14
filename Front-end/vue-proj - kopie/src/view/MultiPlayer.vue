@@ -1,6 +1,8 @@
 <template>
   <div class="multiPlayerContainer">
+    <!-- check if the current player is a valid player -->
     <div v-if="getPlayer.name.length !== 0">
+      <!-- check if the player is linked to this game room in the API -->
       <div class="gameContainer" v-if="opponent != '' && checkValidSession() == true">
         <ion-card>
           <ion-card-content >
@@ -11,6 +13,7 @@
         <ion-card>
           <ion-card-content>
             <ion-card-title align="left"> Score </ion-card-title>
+            <!-- show the name and scores of the players -->
             <ion-card-subtitle align="left" v-html="findMatchInfo()"></ion-card-subtitle>
             <WordBoard />
           </ion-card-content>
@@ -27,16 +30,16 @@
     <ion-card v-else>
       <ion-card-title> No player detected</ion-card-title>
       <ion-card-subtitle> Click here to go back to the lobby </ion-card-subtitle>
+      <!-- return back to /gamerooms when the player is not registered -->
       <router-link to="/gamerooms" id="component-button">Lobby</router-link>
     </ion-card>
   </div>
 </template>
 
 <script>
-import GameBoard from "./GameBoard";
-import WordBoard from "./WordBoard";
-import InformationBoard from "./InformationBoard";
-import SinglePlayerVue from './SinglePlayer.vue';
+import GameBoard from "../components/GameBoard";
+import WordBoard from "../components/WordBoard";
+import InformationBoard from "../components/InformationBoard";
 import GoldMedal from "../assets/gold-medal.png";
 import SilverMedal from "../assets/silver-medal.png";
 import { mapGetters, mapState } from "vuex";
@@ -53,16 +56,16 @@ export default {
   },
     data() {
     return {
-      received_messages: [],
-      send_message: null,
+      receivedMessages: [],
+      sendMessage: null,
       connected: false,
-      letterList: "",
+      letterList: [],
       opponent: '',
     };
   },
   watch: {
       score: function() {
-        this.send_message = this.getPlayer.totalScore;
+        this.sendMessage = this.getPlayer.totalScore;
         this.send();
       },
       gameOver: function() {
@@ -70,15 +73,17 @@ export default {
       }
     },
     methods: {
+      // check if the player is linked to this game room in the API
       checkValidSession() {
-        let messageQueueLength = this.received_messages.length-1;
-            for (var i = 0; i < this.received_messages[messageQueueLength].players.length; i++) {
-              if(this.received_messages[messageQueueLength].players[i].uuid == this.getPlayer.uuid){
+        let messageQueueLength = this.receivedMessages.length-1;
+            for (var i = 0; i < this.receivedMessages[messageQueueLength].players.length; i++) {
+              if(this.receivedMessages[messageQueueLength].players[i].uuid == this.getPlayer.uuid){
                 return true;
               }
             }
         return false;
       },
+      // show the end screen with the game results on it
       showResultScreen() {
         if(this.opponent != '' && this.getGameOver == true){
           if(this.getPlayer.totalScore == this.opponent.score){
@@ -117,15 +122,16 @@ export default {
         }
       },
       findMatchInfo(){
+        // read the websocket message and filter out the player names and scores
         let matchInfoString = "";
 
-        let messageQueueLength = this.received_messages.length-1;
-        for (var i = 0; i < this.received_messages[messageQueueLength].players.length; i++) {
+        let messageQueueLength = this.receivedMessages.length-1;
+        for (var i = 0; i < this.receivedMessages[messageQueueLength].players.length; i++) {
 
-          this.letterList = this.received_messages[messageQueueLength].letters; 
-          for (var j = 0; j < this.received_messages[messageQueueLength].players.length; j++) {
-            if(this.received_messages[messageQueueLength].players[j].uuid != this.getPlayer.uuid){
-              this.opponent = this.received_messages[messageQueueLength].players[j];
+          this.letterList = this.receivedMessages[messageQueueLength].letters; 
+          for (var j = 0; j < this.receivedMessages[messageQueueLength].players.length; j++) {
+            if(this.receivedMessages[messageQueueLength].players[j].uuid != this.getPlayer.uuid){
+              this.opponent = this.receivedMessages[messageQueueLength].players[j];
               return this.getPlayer.name + " : " + this.getPlayer.totalScore + '<br/>' + 
               this.opponent.name + " : " + this.opponent.score;
             }
@@ -137,23 +143,26 @@ export default {
           this.opponent.name + " : " + this.opponent.score;
     },
    send() {
-      console.log("Send message:" + this.send_message);
+    //  send the current player and the current total score of the player 
+    //  and the room info to the API to update the info by using websockets
+      console.log("Send message:" + this.sendMessage);
       if (this.stompClient && this.stompClient.connected) {
         const msg = {
           uuid: this.$route.params.uuid,
-          name: this.received_messages.name,
+          name: this.receivedMessages.name,
           players: {
 		        uuid: this.getPlayer.uuid,
 		        name: this.getPlayer.name,
             score: this.getPlayer.totalScore
           },
-          letters: this.received_messages.letters
+          letters: this.receivedMessages.letters
         };
         this.stompClient.send("/app/topic/greetings/" + this.$route.params.uuid, JSON.stringify(msg), {});
       }
     },
     connect() {
-      this.socket = new SockJS("http://192.168.0.11:8080/gs-guide-websocket");
+      // establish the connection to the API by using websockets
+      this.socket = new SockJS("http://192.168.1.110:8080/boggle-game");
       this.stompClient = Stomp.over(this.socket);
       this.stompClient.connect(
         {},
@@ -162,7 +171,7 @@ export default {
           console.log(frame);
           this.stompClient.subscribe("/topic/greetings/" + this.$route.params.uuid, tick => {
             console.log(tick);
-            this.received_messages.push(JSON.parse(tick.body));
+            this.receivedMessages.push(JSON.parse(tick.body));
           });
           this.send();
         },
@@ -172,19 +181,19 @@ export default {
         }
       );
     },
+
     disconnect() {
+      // disconnect from the websocket connection
       if (this.stompClient) {
         this.stompClient.disconnect();
       }
       this.connected = false;
     },
-    tickleConnection() {
-      this.connected ? this.disconnect() : this.connect();
-    },
     removePlayer() {
+      // remove the player from the gameroom in the API
       if(this.getPlayer.name.length > 1){
         return new Promise((resolve) => {
-            axios.post('http://192.168.0.11:8080/gamerooms/removeplayer', {
+            axios.post('http://192.168.1.110:8080/gamerooms/removeplayer', {
               "gameRoomId": this.$route.params.uuid,
               "players": {
                 "uuid": this.getPlayer.uuid,
@@ -265,7 +274,7 @@ export default {
   }
   ion-card {
     max-width: 400px;
-    width: 98vw;
+    width: 94vw;
     display: inline-block;
   }
 }

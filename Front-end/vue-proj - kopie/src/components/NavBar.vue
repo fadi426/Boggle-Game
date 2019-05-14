@@ -1,54 +1,15 @@
 <template>
   <div class="navBarContainer"> 
-    <!-- <ion-app>
-      <ion-menu side="start">
-        <ion-header>
-          <ion-toolbar color="secondary">
-            <ion-title>Boggle Menu</ion-title>
-          </ion-toolbar>
-        </ion-header>
-        <ion-content padding>
-
-      <ion-card>
-        <ion-card-content >
-          <router-link v-bind:to="'/'" >Home</router-link>
-        </ion-card-content>
-      </ion-card>
-
-      <ion-card>
-        <ion-card-content >
-          <router-link v-bind:to="'/singleplayer'">SinglePlayer</router-link>
-        </ion-card-content>
-      </ion-card>
-
-      <ion-card>
-        <ion-card-content>
-          <router-link v-bind:to="'/gamerooms'">MultiPlayer</router-link>
-        </ion-card-content>
-      </ion-card>
-
-        </ion-content>
-      </ion-menu>
-      <div class="ion-page" main>
-        <ion-button @click="openStart">
+    <div class="dropdown">
+      <ion-button v-on:click="dropDown">Menu
         <ion-icon name="menu"></ion-icon>
-        Menu
-        </ion-button>
+      </ion-button>
+      <div id="myDropdown" class="dropdown-content">
+        <router-link v-bind:to="'/'" >Home</router-link>
+        <router-link v-bind:to="'/singleplayer'">SinglePlayer</router-link>
+        <router-link v-bind:to="'/gamerooms'">MultiPlayer</router-link>
       </div>
-
-    </ion-app>
-    <ion-menu-controller></ion-menu-controller> -->
-
-<div class="dropdown">
-  <ion-button v-on:click="myFunction">Menu
-    <ion-icon name="menu"></ion-icon>
-  </ion-button>
-  <div id="myDropdown" class="dropdown-content">
-    <router-link v-bind:to="'/'" >Home</router-link>
-    <router-link v-bind:to="'/singleplayer'">SinglePlayer</router-link>
-    <router-link v-bind:to="'/gamerooms'">MultiPlayer</router-link>
-  </div>
-</div>
+    </div>
   </div>
 </template>
 <script>
@@ -59,13 +20,8 @@ export default {
     }
   },
   methods: {
-    openStart () {
-      document.querySelector('ion-menu-controller').open('start')
-    },
-    openEnd () {
-      document.querySelector('ion-menu-controller').open('end')
-    },
-    myFunction() {
+    dropDown() {
+      // change the appearance of the dropdown menu by calling the .show css
       document.getElementById("myDropdown").classList.toggle("show");
     }
   }

@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <NavBar/>
+    <!-- show content of the routerview -->
     <router-view name="maincontainer" />
     <router-view name="additional" />
   </div>

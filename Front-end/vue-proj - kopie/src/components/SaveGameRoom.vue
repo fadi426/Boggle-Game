@@ -3,7 +3,7 @@
         <div class="saveGameRoomContainer" v-if="getPlayer.name">
             <input type="text" v-model="name" placeholder="Enter your gameroom name here...">
             <router-link :to="{ name: 'multiplayer', params: { uuid: this.uuid }} ">
-                <ion-button expand="full" v-on:click="PostPlayer">send</ion-button>
+                <ion-button expand="full" v-on:click="postGameRoom">send</ion-button>
             </router-link>
         </div>
     </div>
@@ -29,22 +29,24 @@ export default {
         ]),
     },
 	methods: {
-        create_UUID(){
-        var dt = new Date().getTime();
-        var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-            var r = (dt + Math.random()*16)%16 | 0;
-            dt = Math.floor(dt/16);
-            return (c=='x' ? r :(r&0x3|0x8)).toString(16);
-        });
-            this.uuid = uuid;
-            return uuid;
+        createUUID(){
+            // create a unique ID for the game room to distinguish the rooms from each other
+            var dt = new Date().getTime();
+            var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = (dt + Math.random()*16)%16 | 0;
+                dt = Math.floor(dt/16);
+                return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+            });
+                this.uuid = uuid;
+                return uuid;
         },
-        PostPlayer() {
+        postGameRoom() {
+            // add the game room to the API
             return new Promise((resolve) => {
                this.playerArray.push(this.getPlayer);
-               axios.post('http://192.168.0.11:8080/gamerooms',
+               axios.post('http://192.168.1.110:8080/gamerooms',
                {
-                    "uuid":  this.create_UUID(),
+                    "uuid":  this.createUUID(),
                     "name": this.name,
                     "started": false,
                     "players": [{
@@ -64,8 +66,9 @@ export default {
             });
         },
         letters() {
+            // get the dice configuration from the API to display it on the GameBoardLetters
             return new Promise((resolve) => {
-                axios.get('http://192.168.0.11:8080/board')
+                axios.get('http://192.168.1.110:8080/board')
                 .then((response) => {
                     if (response){
                         console.log(response.data);
@@ -79,6 +82,7 @@ export default {
         },
     },
     beforeRouteLeave (to, from, next) {
+        // make sure to check if the player really wants to leave the page with unsaved changes
         const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
         if (answer) {
             next()

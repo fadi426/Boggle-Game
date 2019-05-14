@@ -12,14 +12,17 @@
                 <td v-if="Word.isValid == true">{{ Word.score }}</td>
                 <td v-else> 0 </td>
                 <td > 
+                  <!-- show check mark when the word is valid -->
                   <ion-icon name="checkmark-circle-outline" 
                     style="zoom: 1.5; color: #4fc3a1;"
                     v-if="Word.isValid == true">
                   </ion-icon>
+                  <!-- show X mark when the word is innvalid -->
                   <ion-icon name="close-circle-outline"
                     style="zoom: 1.5; color: #c34f71;"
                     v-if="Word.isValid == false"
                   >
+                  <!-- show loading mark when validity has not been checked yet -->
                   </ion-icon>
                     <LoadingIcon
                         v-if="Word.isValid == undefined"

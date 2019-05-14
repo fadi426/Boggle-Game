@@ -37,18 +37,23 @@ export default {
   },
   methods: {
     sendWord() {
+      // reset the current word
       var Word = this.getWord;
       this.$store.commit("resetWord");
 
+      // check if a word is present that's not already in the wordList 
+      // while the word is longer than 2 characters and the move is valid
       if (Word.word && 
         !this.getWordList.some(e => e.word === Word.word) &&
         !this.getInvalidMove && Word.word.length > 2) {
           this.$store.commit("addWord", Word);
           return new Promise((resolve) => {
-            axios.post('http://192.168.0.11:8080/words', { 'word': Word.word, isValid: false, score: 0  })
+
+            // send the word to the Back-end to check if its a valid word or not
+            axios.post('http://192.168.1.110:8080/words', { 'word': Word.word, isValid: false, score: 0  })
             .then((response) => {
               if (response.data.isValid == true){
-                console.log(response.data);
+                // add score points when the word is valid
                 Word.isValid = true;
                 var payload = { word: Word, score: response.data.score };
                 this.$store.commit("addScorePoints", payload);

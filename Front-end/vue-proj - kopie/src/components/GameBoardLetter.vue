@@ -18,56 +18,53 @@ export default {
   methods: {
 
     selectLetters() {
+      // checks the validity of the moves of the user to construct a selected word
       var payload = { letter: this.letter, letterIndex: this.letterIndex };
       var lastMoveIndex = this.getWord.letterIndexList[this.getWord.letterIndexList.length - 1];
       
+      // reset InvalidMove when starting to select a word
       if(this.getInvalidMove && this.getWord.letterIndexList.length == 0){
         this.$store.commit("adjustInvalidMove", false);
       }
-      if (
-        this.getWord.letterIndexList.includes(this.letterIndex) &&
-        !this.getInvalidMove && this.letterIndex == lastMoveIndex
-      ) {
-        let indexOfLetter = this.getWord.letterIndexList.length - 1;
-        this.silceWord(indexOfLetter);
-        return;
-      }
-      if (
-        this.getWord.letterIndexList.includes(this.letterIndex) &&
-        !this.getInvalidMove && this.letterIndex != lastMoveIndex
-      ) {
-        let indexOfLetter = this.getWord.letterIndexList.indexOf(this.letterIndex) +1;
-        this.silceWord(indexOfLetter);
-        return;
+      if (this.getWord.letterIndexList.includes(this.letterIndex) && !this.getInvalidMove) {
+          // check if die has already been selected to unselect it when already selected
+          if (this.letterIndex == lastMoveIndex){
+            let indexOfLetter = this.getWord.letterIndexList.length - 1;
+            this.sliceWord(indexOfLetter);
+            return;
+          }
+          // check if die has already been selected to unselect the letter up to the double pressed letter
+          else if(this.letterIndex != lastMoveIndex){
+            let indexOfLetter = this.getWord.letterIndexList.indexOf(this.letterIndex) +1;
+            this.sliceWord(indexOfLetter);
+            return;
+          }
       }
       this.checkMoveValidity(lastMoveIndex, payload);
     },
-    silceWord(indexOfLetter){
+    sliceWord(indexOfLetter){
+      // slices up the word up to the index of the letter pressed
       let letterIndexList = this.getWord.letterIndexList.slice(0, indexOfLetter);
       let wordList = this.getWord.word.slice(0, indexOfLetter);
       this.$store.commit("removeLetter", { LetterIndexList: letterIndexList, WordList: wordList });
     },
     checkMoveValidity(lastMoveIndex, payload){
+      // 
       if (
-        !this.getWord.letterIndexList.includes(this.letterIndex) &&
-        !this.getInvalidMove
+        this.getWord.letterIndexList.length === 0 ||
+        lastMoveIndex === payload.letterIndex + 1 ||
+        lastMoveIndex === payload.letterIndex - 1 ||
+        lastMoveIndex === payload.letterIndex + 4 ||
+        lastMoveIndex === payload.letterIndex - 4 ||
+        lastMoveIndex === payload.letterIndex + 5 ||
+        lastMoveIndex === payload.letterIndex - 5 ||
+        lastMoveIndex === payload.letterIndex + 6 ||
+        lastMoveIndex === payload.letterIndex - 6
       ) {
-        if (
-          this.getWord.letterIndexList.length === 0 ||
-          lastMoveIndex === payload.letterIndex + 1 ||
-          lastMoveIndex === payload.letterIndex - 1 ||
-          lastMoveIndex === payload.letterIndex + 4 ||
-          lastMoveIndex === payload.letterIndex - 4 ||
-          lastMoveIndex === payload.letterIndex + 5 ||
-          lastMoveIndex === payload.letterIndex - 5 ||
-          lastMoveIndex === payload.letterIndex + 6 ||
-          lastMoveIndex === payload.letterIndex - 6
-        ) {
-          this.$store.commit("addLetter", payload);
-        } else {
-        this.$store.commit("adjustInvalidMove", true);
-        }
-      } 
+        this.$store.commit("addLetter", payload);
+      } else {
+      this.$store.commit("adjustInvalidMove", true);
+      }
     }
   },
   computed: {

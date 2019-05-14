@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.*;
 import java.util.regex.Pattern;
 
-
-// Declare the class
 public class DictonaryChecker
 {
 

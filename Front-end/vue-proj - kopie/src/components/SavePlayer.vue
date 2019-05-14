@@ -1,7 +1,7 @@
 <template>
     <div class="savePlayerContainer" v-if="!getPlayer.name">
         <input type="text" v-model="name" placeholder="Enter your name here...">
-        <ion-button expand="full" v-on:click="PostPlayer">send</ion-button>
+        <ion-button expand="full" v-on:click="postPlayer">send</ion-button>
     </div>
 </template>
 
@@ -19,7 +19,8 @@ export default {
     ...mapGetters(["getPlayer"])
   },
   methods: {
-    create_UUID() {
+    createUUID() {
+      // create a unique ID for the player to distinguish the rooms from each other
       var dt = new Date().getTime();
       var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
         /[xy]/g,
@@ -31,15 +32,16 @@ export default {
       );
       return uuid;
     },
-    PostPlayer() {
+    postPlayer() {
+      // create and add the player to the API
       return new Promise(resolve => {
         var payload = {
-          uuid: this.create_UUID(),
+          uuid: this.createUUID(),
           name: this.name,
           totalScore: 0
         };
         axios
-          .post("http://192.168.0.11:8080/players", {
+          .post("http://192.168.1.110:8080/players", {
             uuid: payload.uuid,
             name: payload.name,
             score: payload.totalScore
