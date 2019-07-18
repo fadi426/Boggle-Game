@@ -49,7 +49,7 @@ export default {
       this.$store.commit("removeLetter", { LetterIndexList: letterIndexList, WordList: wordList });
     },
     checkMoveValidity(lastMoveIndex, payload){
-      // 
+      // check if the index of the selected letter is next to the letterIndex before that letter
       if (
         this.getWord.letterIndexList.length === 0 ||
         lastMoveIndex === payload.letterIndex + 1 ||
@@ -70,6 +70,7 @@ export default {
   computed: {
     ...mapGetters(["getWord", "getInvalidMove"]),
     changePressedLetterStyle(){
+      // change the color of the die when pressed
       return {
         backgroundColor : this.getWord.letterIndexList.includes(this.letterIndex)  ? '#3880FF' : '#00A591'
       }

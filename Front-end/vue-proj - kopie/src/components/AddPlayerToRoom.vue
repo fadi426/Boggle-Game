@@ -25,7 +25,7 @@ export default {
         postPlayerToGame() {
             // link the current player userUUID to the gameroomUUID in the API
             return new Promise((resolve) => {
-                axios.post('http://192.168.1.110:8080/gamerooms/addplayer', {
+                axios.post('http://192.168.137.1:8080/gamerooms/player', {
 	                "gameRoomId": this.gameRoomId,
 	                "players": {
 		                "uuid": this.getPlayer.uuid,
@@ -35,9 +35,9 @@ export default {
                 })
                 .then((response) => {
                     if (response)
-                    console.log("Player has been added to the room");
+                        console.log("Player has been added to the room");
                     else
-                    console.log("Player has not been added to the room");
+                        console.log("Player has not been added to the room");
                     resolve()
                 });
         });

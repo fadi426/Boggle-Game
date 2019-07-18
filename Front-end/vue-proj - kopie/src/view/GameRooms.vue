@@ -58,7 +58,7 @@ export default {
   methods: {
     connect() {
       // establish the websocket connection
-      this.socket = new SockJS("http://192.168.1.110:8080/boggle-game");
+      this.socket = new SockJS("http://192.168.137.1:8080/boggle-game");
       this.stompClient = Stomp.over(this.socket);
       this.stompClient.connect(
         {},

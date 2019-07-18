@@ -56,21 +56,21 @@ public class BoggleController {
     }
 
     @CrossOrigin(origins = "*")
-    @RequestMapping(method = RequestMethod.POST, value = "/gamerooms/addplayer")
+    @RequestMapping(method = RequestMethod.POST, value = "/gamerooms/player")
     public void addPlayerToGameRoom(@RequestBody PlayerToRoom playerToRoom){
         System.out.println("players have been added to room: " + playerToRoom.getGameRoomId());
         gameRoomService.addPlayerToGame(playerToRoom.getGameRoomId(), playerToRoom.getPlayers());
     }
 
     @CrossOrigin(origins = "*")
-    @RequestMapping(method = RequestMethod.POST, value = "/gamerooms/removeplayer")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/gamerooms/player")
     public void removePlayerFromGame(@RequestBody PlayerToRoom playerToRoom){
         System.out.println("player has been removed from room: " + playerToRoom.getGameRoomId());
         gameRoomService.removePlayerToGame(playerToRoom.getGameRoomId(), playerToRoom.getPlayers());
     }
 
-    @MessageMapping("/topic/greetings/{roomId}")
-    @SendTo("/topic/greetings/{roomId}")
+    @MessageMapping("/topic/gameroom/{roomId}")
+    @SendTo("/topic/gameroom/{roomId}")
     public GameRoom showGameRoomInfo(String message) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);

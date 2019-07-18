@@ -65,9 +65,9 @@ export default {
       }
     },
     letters() {
-      // Get the dice configuration from the API to display it on the GameBoardLetters
+      // get the dice configuration from the API to display it on the GameBoardLetters
       return new Promise((resolve) => {
-          axios.get('http://192.168.1.110:8080/board')
+          axios.get('http://192.168.137.1:8080/board')
           .then((response) => {
               if (response){
                   this.letterList = response.data;

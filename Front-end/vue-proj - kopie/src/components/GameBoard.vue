@@ -50,7 +50,7 @@ export default {
           return new Promise((resolve) => {
 
             // send the word to the Back-end to check if its a valid word or not
-            axios.post('http://192.168.1.110:8080/words', { 'word': Word.word, isValid: false, score: 0  })
+            axios.post('http://192.168.137.1:8080/words', { 'word': Word.word, isValid: false, score: 0  })
             .then((response) => {
               if (response.data.isValid == true){
                 // add score points when the word is valid
@@ -84,7 +84,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   list-style-type: none;
-  width: calc(11em + 14px);
+  width: calc(11em + 15px);
   padding: 0;
   font-size: 25px;
   }

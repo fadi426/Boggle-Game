@@ -44,11 +44,17 @@ public class GameRoomService {
 
     // look for the matching GameRoom UUID and change the score of a player in that room
     public  void changePlayerGameScore(String gameId, Player player){
-        gameRoomList.stream()
-                .filter(room -> room.getUuid().equals(gameId))
-                .findFirst().get().getPlayers().stream()
-                    .filter(roomPlayer -> roomPlayer.getUuid().equals(player.getUuid()))
-                    .findFirst().get().setScore(player.getScore());
+        if (gameId == null)
+            return;
+
+        for (GameRoom room : gameRoomList){
+            if (room.getUuid().equals(gameId)){
+                for (Player p : room.getPlayers()){
+                    if (p.getUuid().equals(player.getUuid()))
+                        p.setScore(player.getScore());
+                }
+            }
+        }
     }
 
     // look for the matching GameRoom UUID and remove a player from that room

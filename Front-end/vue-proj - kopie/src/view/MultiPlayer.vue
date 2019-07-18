@@ -145,6 +145,7 @@ export default {
    send() {
     //  send the current player and the current total score of the player 
     //  and the room info to the API to update the info by using websockets
+    console.log(this.$route.params.uuid);
       console.log("Send message:" + this.sendMessage);
       if (this.stompClient && this.stompClient.connected) {
         const msg = {
@@ -157,20 +158,20 @@ export default {
           },
           letters: this.receivedMessages.letters
         };
-        this.stompClient.send("/app/topic/greetings/" + this.$route.params.uuid, JSON.stringify(msg), {});
+        this.stompClient.send("/app/topic/gameroom/" + this.$route.params.uuid, JSON.stringify(msg), {});
       }
     },
     connect() {
       // establish the connection to the API by using websockets
-      this.socket = new SockJS("http://192.168.1.110:8080/boggle-game");
+      this.socket = new SockJS("http://192.168.137.1:8080/boggle-game");
       this.stompClient = Stomp.over(this.socket);
       this.stompClient.connect(
         {},
         frame => {
           this.connected = true;
           console.log(frame);
-          this.stompClient.subscribe("/topic/greetings/" + this.$route.params.uuid, tick => {
-            console.log(tick);
+          // listen to incomming messages and push them to the receivedMessages list
+          this.stompClient.subscribe("/topic/gameroom/" + this.$route.params.uuid, tick => {
             this.receivedMessages.push(JSON.parse(tick.body));
           });
           this.send();
@@ -193,19 +194,19 @@ export default {
       // remove the player from the gameroom in the API
       if(this.getPlayer.name.length > 1){
         return new Promise((resolve) => {
-            axios.post('http://192.168.1.110:8080/gamerooms/removeplayer', {
+            axios.post('http://192.168.137.1:8080/gamerooms/removeplayer', {
               "gameRoomId": this.$route.params.uuid,
-              "players": {
-                "uuid": this.getPlayer.uuid,
-                "name": this.getPlayer.name,
-                "score": this.getPlayer.totalScore
-              }
+                "players": {
+                  "uuid": this.getPlayer.uuid,
+                  "name": this.getPlayer.name,
+                  "score": this.getPlayer.totalScore
+                }
             })
             .then((response) => {
                 if (response)
-                console.log("player has been removed from the room");
+                  console.log("player has been removed from the room");
                 else
-                console.log("player has not been removed from the room");
+                  console.log("player has not been removed from the room");
                 resolve()
             });
         });
@@ -242,8 +243,9 @@ export default {
   },
   beforeRouteLeave (to, from, next) {
     console.log("connected has been closed");
-    this.disconnect();
     this.removePlayer();
+    this.send();
+    this.disconnect();
     this.resetGame();
     next();
   },
